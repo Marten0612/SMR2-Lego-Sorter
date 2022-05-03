@@ -14,6 +14,7 @@ class camera:
         pass
 
 #test test jip
+#houd je bek jip hoer op
 
 class hopper:
     def __init__(self, hopper_pin, hopper_speed):
