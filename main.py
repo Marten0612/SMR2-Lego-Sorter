@@ -13,7 +13,7 @@ class camera:
     def connect(self):
         pass
 
-
+#test test jip
 
 class hopper:
     def __init__(self, hopper_pin, hopper_speed):
