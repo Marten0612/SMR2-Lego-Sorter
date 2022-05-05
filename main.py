@@ -32,3 +32,6 @@ class hopper:
 
     def turn_on(self):
         pass
+
+hopper.turn_on
+
