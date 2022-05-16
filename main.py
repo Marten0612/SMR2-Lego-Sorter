@@ -15,7 +15,7 @@ class camera:
 
 class brick:
     def __init__(self) -> None:
-        
+        a1
     def brick_detect(self):
         a1
 
