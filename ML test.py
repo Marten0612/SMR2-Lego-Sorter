@@ -10,12 +10,12 @@ model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  #
 img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  # or file, Path, PIL, OpenCV, numpy, list
 img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'
 img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png' 
-imges = [img0,img1,img2]
-class_names = [None]*3
+images = [img0, img1, img2]
+class_names = [None] * 3
 
 #Go trough al the photo's
 for i in range(3):
-    img = imges[i]
+    img = images[i]
     # Inference
     results = model(img)
 
