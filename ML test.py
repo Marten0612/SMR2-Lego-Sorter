@@ -1,7 +1,7 @@
 import torch
 
 #Global variables
-conf_tresh = 0,9 #Confidence treshold
+conf_tresh = 0.9 #Confidence treshold
 
 # Model
 model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo
@@ -10,8 +10,8 @@ model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  #
 img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'  # or file, Path, PIL, OpenCV, numpy, list
 img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png'
 img3 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img3.png' 
-imges = [img1,img2,img3]
-class_names = [None]*3
+imges = [img1, img2, img3]
+class_names = [None] * 3
 
 #Go trough al the photo's
 for i in range(3):
