@@ -7,10 +7,10 @@ conf_tresh = 0.9 #Confidence treshold
 model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo
 
 # Images
-img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'  # or file, Path, PIL, OpenCV, numpy, list
-img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png'
-img3 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img3.png' 
-imges = [img1,img2,img3]
+img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  # or file, Path, PIL, OpenCV, numpy, list
+img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'
+img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png' 
+imges = [img0,img1,img2]
 class_names = [None]*3
 
 #Go trough al the photo's
