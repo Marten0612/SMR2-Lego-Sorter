@@ -57,6 +57,10 @@ for i in range(3):
 
     # Results
     data = results.pandas().xyxy[0]
+    if len(data) > 1:
+        class_names[i] = 'rest'
+        continue #He will still check all pictures. Change to break to stop immediately.
+
     confidence = data.iloc[0]['confidence']
     if confidence < conf_tresh:
         class_names[i] = 'rest'
