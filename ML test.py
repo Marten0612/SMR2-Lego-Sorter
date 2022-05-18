@@ -5,9 +5,10 @@ conf_tresh = 0.9 #Confidence treshold
  
 # Model
 model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo
+#path is the model we use
 
 # Images
-img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  # or file, Path, PIL, OpenCV, numpy, list
+img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  
 img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'
 img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png' 
 images = [img0, img1, img2]
@@ -20,15 +21,12 @@ for i in range(3):
     results = model(img)
 
     # Results
-    results.print() # or .show(), .save(), .crop(), .pandas(), etc.
-
     data = results.pandas().xyxy[0]
     confidence = data.iloc[0]['confidence']
-    class_names[i] = data.iloc[0]['name']
-    print("Confidence = {}\nClass = {}".format(confidence, class_names[i]))
     if confidence < conf_tresh:
         class_names[i] = 'rest'
-
+    else:
+        class_names[i] = data.iloc[0]['name']
 
 # Determine what class the part is
 if (class_names[0] == class_names[1]) and (class_names[1] == class_names[2]):
@@ -42,3 +40,4 @@ elif (class_names[0] == class_names[2]):
 else:
     class_part = 'rest'
 
+print(class_part)
