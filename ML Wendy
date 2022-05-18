@@ -2,8 +2,9 @@
 import torch
 
 # Model
-#model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo
-model = torch.hub.load('yolov5', 'custom', path="last.pt", source='local')  # local repo
+model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo WENDY
+#model = torch.hub.load('yolov5', 'custom', path="last.pt", source='local')  # local repo JIP
+
 #model = torch.hub.load('ultralytics/yolov5', 'yolov5s', _verbose=False)  # or yolov5n - yolov5x6, custom
 
 # Images
