@@ -39,8 +39,12 @@ all_tile = ['3070_1x1_Tile', '3069_1x2_Tile', '63864_1x3_Tile', '2431_1x4_Tile',
             '90498_8x16_Tile'] 
 
 # Model
-model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local')  # local repo
-#path is the model we use
+model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local', _verbose=False)  # local repo
+#../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
+#custom means that we use a model trained by ourselves, instead of a pretrained one.
+#path is the model we use, located in the same file as this code.
+#source='local' means that the model used is on this computer.
+#_verbose=False, zorgt dat het model niet in de terminal wordt laten zien.
 
 # Images
 img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  
@@ -49,7 +53,7 @@ img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png'
 images = [img0, img1, img2]
 class_names = [None] * 3
 
-#Go trough al the photo's
+# Go trough all the photo's
 for i in range(3):
     img = images[i]
     # Inference
