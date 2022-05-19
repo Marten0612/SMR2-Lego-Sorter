@@ -1,5 +1,6 @@
 from turtle import speed
 from matplotlib.pyplot import pink
+import serial 
 
 
 class sorter:
