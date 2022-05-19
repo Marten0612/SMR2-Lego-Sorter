@@ -1,35 +1,33 @@
-int x;
-void setup() {
- Serial.begin(115200);
- Serial.setTimeout(1);
-}
-void loop() {
- while (!Serial.available());
- x = Serial.readString().toInt();
 
- if (x == 1) { //Activate servo 1
-  Serial.print("Tray 1");
- }
- if (x == 2) { //Activate servo 2
-  Serial.print("Tray 2");  
- }
- if (x == 3) { //Activate servo 3
-  Serial.print("Tray 3");  
- }
- if (x == 4) { //Activate servo 4
-  Serial.print("Tray 4");  
- }
- if (x == 5) { //Activate servo 5
-  Serial.print("Tray 5");  
- }
- if (x == 6) { //Activate servo 6
-  Serial.print("Tray 6");  
- }
- if (x == 7) { //Activate servo 7
-  Serial.print("Tray 7");  
- }
- if (x == 8) { //Activate servo 8
-  Serial.print("Tray 8");  
- } 
- 
+#define LEDPIN 13
+#define SENSORPIN 53
+int x;
+// variables will change:
+int sensorState = 0, lastState=0;         // variable for reading the pushbutton status
+
+void setup() {
+  // initialize the LED pin as an output:
+  pinMode(LEDPIN, OUTPUT);      
+  // initialize the sensor pin as an input:
+  pinMode(SENSORPIN, INPUT);     
+  digitalWrite(SENSORPIN, HIGH); // turn on the pullup
+  Serial.begin(115200);
+  Serial.setTimeout(1);
+}
+
+void loop(){
+  // read the state of the pushbutton value:
+  sensorState = digitalRead(SENSORPIN);
+  while (!Serial.available());
+  // check if the sensor beam is broken
+  // if it is, the sensorState is LOW:
+  if (sensorState == LOW) {     
+    // turn LED on:
+    digitalWrite(LEDPIN, HIGH);  
+  } 
+  else {
+    // turn LED off:
+    digitalWrite(LEDPIN, LOW); 
+    Serial.print(99);
+  }
 }
