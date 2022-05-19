@@ -17,7 +17,7 @@ tile = ['3070_1x1_Tile', '3069_1x2_Tile', '63864_1x3_Tile', '2431_1x4_Tile', \
          '6636_1x6_Tile', '4162_1x8_Tile', '3068_2x2_Tile', '26603_2x3_Tile', \
          '87079_2x4_Tile', '69729_2x6_Tile', '6934a_3x6_Tile']
 
-#These are all the classes of the groups, we will only use an selection of these
+#These are all the classes of the groups, but only a selection will be put in the machine.
 all_brick = ['3005_1x1_Brick', '3004_1x2_Brick', '3622_1x3_Brick', '3010_1x4_Brick', \
               '3009_1x6_Brick', '3008_1x8_Brick', '6111_1x10_Brick', '6112_1x12_Brick', \
               '2465_1x16_Brick']
