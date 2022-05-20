@@ -30,7 +30,7 @@ void loop(){
     digitalWrite(LEDPIN, LOW);
   }
   if (!sensorState && lastState) {//Broken
-    Serial.print(9); 
+    Serial.print(1); 
   }
   lastState = sensorState;
 }
