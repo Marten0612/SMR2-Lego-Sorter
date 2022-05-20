@@ -21,7 +21,7 @@ void setup() {
   FastLED.show(); 
 
   
-   //pinMode ( interruptPin , INPUT_PULLUP) ;
+   //pinMode ( inter, IruptPin NPUT_PULLUP) ;
    //attachInterrupt ( digitalPinToInterrupt ( interruptPin ), glow, CHANGE ) ;
   pinMode(2, INPUT_PULLUP);
 }
