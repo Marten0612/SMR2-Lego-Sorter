@@ -31,9 +31,9 @@ while True:
         number2 = (counter + 1)
         number3 = (counter + 2)
         #cv2.imwrite("Brick%d.jpg" % number1, frame1)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.jpg" % number1, frame1)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.jpg" % number2, frame2)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.jpg" % number3, frame3)
+        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
+        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
+        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
         counter += 3
         # cv2.waitKey(0) 
         # cv2.destroyAllWindows() 
