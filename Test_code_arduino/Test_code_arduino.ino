@@ -1,8 +1,13 @@
-
+#include <FastLED.h>                  //LED
+#define NUM_LEDS 27                   //aantal leds op strip
+#define DATA_PIN 52                    //pin uitvoer data ledstrip
+#define BRIGHTNESS 100                //lichtsterkte led strip
 #define LEDPIN 13
 #define SENSORPIN 53
-int x;
+CRGB leds[NUM_LEDS];
+
 // variables will change:
+int x;
 int sensorState = 0, lastState=0;         // variable for reading the pushbutton status
 
 void setup() {
@@ -13,12 +18,18 @@ void setup() {
   digitalWrite(SENSORPIN, HIGH); // turn on the pullup
   Serial.begin(115200);
   Serial.setTimeout(1);
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
+  LEDS.setBrightness(BRIGHTNESS);
+  FastLED.show(); 
 }
 
 void loop(){
+  for (int i=0; i<NUM_LEDS; i++)
+    leds[i] = CRGB::AntiqueWhite;
+    FastLED.show();
   // read the state of the pushbutton value:
   sensorState = digitalRead(SENSORPIN);
-//  while (!Serial.available());
+  //  while (!Serial.available());
   // check if the sensor beam is broken
   // if it is, the sensorState is LOW:
   if (sensorState == LOW) {  //Sluis onderbroken   
