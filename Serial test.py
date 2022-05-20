@@ -56,8 +56,11 @@ arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 #     return data
 while True:
     time.sleep(0.05)
-    data = arduino.readline().decode('ascii')
+    data = arduino.readline()
+    data = int.from_bytes(data,"big")#.decode('ascii')
+    chr(data)
+    data = int(data)
     # num = input("Enter a number: ") # Taking input from user
     # value = write_read(num)
-    if(data != ''):
+    if(data != 0):
         print(data) # printing the value

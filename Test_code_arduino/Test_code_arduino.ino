@@ -18,16 +18,19 @@ void setup() {
 void loop(){
   // read the state of the pushbutton value:
   sensorState = digitalRead(SENSORPIN);
-  while (!Serial.available());
+//  while (!Serial.available());
   // check if the sensor beam is broken
   // if it is, the sensorState is LOW:
   if (sensorState == LOW) {  //Sluis onderbroken   
     // turn LED on:
     digitalWrite(LEDPIN, HIGH); 
-    Serial.print(9); 
   } 
   else {
     // turn LED off:
-    digitalWrite(LEDPIN, LOW); 
+    digitalWrite(LEDPIN, LOW);
   }
+  if (!sensorState && lastState) {//Broken
+    Serial.print(9); 
+  }
+  lastState = sensorState;
 }
