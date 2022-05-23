@@ -1,7 +1,7 @@
 #include <FastLED.h>                  //LED
 #define NUM_LEDS 27                   //aantal leds op strip
 #define DATA_PIN 52                    //pin uitvoer data ledstrip
-#define BRIGHTNESS 100                //lichtsterkte led strip
+#define BRIGHTNESS 20                //lichtsterkte led strip
 #define LEDPIN 13
 #define SENSORPIN 53
 CRGB leds[NUM_LEDS];
@@ -20,13 +20,13 @@ void setup() {
   Serial.setTimeout(1);
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
   LEDS.setBrightness(BRIGHTNESS);
+  FastLED.show();
+  for (int i=0; i<NUM_LEDS; i++)
+  leds[i] = CRGB::FloralWhite;
   FastLED.show(); 
 }
 
 void loop(){
-  for (int i=0; i<NUM_LEDS; i++)
-    leds[i] = CRGB::AntiqueWhite;
-    FastLED.show();
   // read the state of the pushbutton value:
   sensorState = digitalRead(SENSORPIN);
   //  while (!Serial.available());
