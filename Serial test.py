@@ -7,11 +7,16 @@ cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
 cam3 = cv2.VideoCapture(3)
 
+focus = 100  # min: 0, max: 255, increment:5
+cam1.set(cv2.CAP_PROP_FOCUS, focus) 
+cam2.set(cv2.CAP_PROP_FOCUS, focus) 
+cam3.set(cv2.CAP_PROP_FOCUS, focus) 
+
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 counter = 0
 
 while True:
-    time.sleep(0.05)
+    time.sleep(0.04)
     data = arduino.readline()
     data = int.from_bytes(data,"big")#.decode('ascii')
     

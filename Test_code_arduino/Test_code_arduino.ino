@@ -1,10 +1,10 @@
 #include <FastLED.h>                  //LED
 #define NUM_LEDS 27                   //aantal leds op strip
 #define DATA_PIN 52                    //pin uitvoer data ledstrip
-#define BRIGHTNESS 20                //lichtsterkte led strip
+#define BRIGHTNESS 100                //lichtsterkte led strip
 #define LEDPIN 13
 #define SENSORPIN 53
-CRGB leds[NUM_LEDS];
+CRGB leds[NUM_LEDS]; 
 
 // variables will change:
 int x;
@@ -22,7 +22,7 @@ void setup() {
   LEDS.setBrightness(BRIGHTNESS);
   FastLED.show();
   for (int i=0; i<NUM_LEDS; i++)
-  leds[i] = CRGB::FloralWhite;
+  leds[i] = CRGB::Tan;
   FastLED.show(); 
 }
 
