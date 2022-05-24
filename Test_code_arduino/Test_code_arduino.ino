@@ -22,7 +22,7 @@ void setup() {
   LEDS.setBrightness(BRIGHTNESS);
   FastLED.show();
   for (int i=0; i<NUM_LEDS; i++)
-  leds[i] = CRGB::Tan;
+  leds[i] = CRGB::Moccasin;
   FastLED.show(); 
 }
 

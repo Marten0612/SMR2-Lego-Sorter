@@ -12,8 +12,29 @@ cam1.set(cv2.CAP_PROP_FOCUS, focus)
 cam2.set(cv2.CAP_PROP_FOCUS, focus) 
 cam3.set(cv2.CAP_PROP_FOCUS, focus) 
 
+cam1.set(3,1280)
+cam1.set(4,720)
+cam2.set(3,1280)
+cam2.set(4,720)
+cam3.set(3,1280)
+cam3.set(4,720)
+
+cam1.set(14, 5.6) 
+cam2.set(14, 5.6) 
+cam3.set(14, 5.6) 
+cam1.set(10, 1) 
+cam2.set(10, 1) 
+cam3.set(10, 1) 
+
+for i in range(47):
+    print("No.={} parameter={}".format(i,cam1.get(i)))
+for k in range(47):
+    print("No.={} parameter={}".format(k,cam2.get(i)))
+for j in range(47):
+    print("No.={} parameter={}".format(j,cam3.get(i)))
+
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
-counter = 0
+counter = 100
 
 while True:
     time.sleep(0.04)
