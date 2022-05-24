@@ -154,9 +154,9 @@ cam3.set(46,-1.0)
 for i in range(47):
     print("No.={} parameter={}".format(i,cam1.get(i)))
 for k in range(47):
-    print("No.={} parameter={}".format(k,cam2.get(i)))
+    print("No.={} parameter={}".format(k,cam2.get(k)))
 for j in range(47):
-    print("No.={} parameter={}".format(j,cam3.get(i)))
+    print("No.={} parameter={}".format(j,cam3.get(j)))
 
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 counter = 100
