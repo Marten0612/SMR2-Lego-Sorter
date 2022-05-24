@@ -1,0 +1,64 @@
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+.container{ 
+            background-color: #ffff;
+            margin: auto;
+        }
+
+.ruimte1{
+        height: 40 px;
+        margin: auto;
+        background-color: #ffffff;
+    }
+
+.footer{
+    width:100%;
+    position:fixed;
+    bottom:0px;
+    background-color: #009EE0;
+    }
+
+#logo_SMR {
+    object-position:left;
+    margin:auto;
+    }
+
+title{  
+        text-align: center;
+    }
+
+body{
+        width: auto;
+        text-align: center;
+        margin: auto;
+    }
+
+p {
+    font-size: smaller;
+    }
+
+h1{
+    font-size: larger;
+    }
+
+input[type=submit]{
+                    background-color: #009EE0;
+                    border: none;
+                    color: #ffffff;
+                    padding: 16px 32px;
+                    text-decoration: none;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    }
+
+li{
+    list-style: circle;
+    list-style-position: outside;
+    font-size: smaller;
+}
+
