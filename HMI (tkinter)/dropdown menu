@@ -1,0 +1,62 @@
+import tkinter  as tk 
+from tkinter import ttk
+from tkinter import *
+
+#open window
+window = tk.Tk()
+window.title('BSL Bricks')
+window.geometry("1300x700")
+window.resizable(True, True)
+window.configure(background = "pink")
+
+#functions of the buttons
+def start():
+    print("De machine start met sorteren.")
+
+#buttons
+start_button = Button(window , text = "Start\n sorting", command = start, height = 2 , width = 10, bg = "purple" , fg = 'white'
+              ,font = "Segoe 40 bold" , borderwidth = 10).place(x=500, y=500)
+
+#optionmenus   
+variable = StringVar(window)
+variable.set("None") # default value
+OptionList= ["Brick", "Block", "Plate", "Sheet", "Tile", "None"]
+
+opt_bak1 = tk.OptionMenu(window, variable, *OptionList)
+opt_bak1.config(width=10, font=('Helvetica', 12))
+opt_bak1.pack(side="top")
+opt_bak1.pack()
+opt_bak1.place(x=100, y=100)
+
+labelTest = tk.Label(text="bak 1", font=('Helvetica', 12), fg='red')
+labelTest.pack(side="top")
+labelTest.place(x=100, y=80)
+
+
+
+bak_1 = variable.get()
+window.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+'''
+from tkinter import *
+
+master = Tk()
+
+variable = StringVar(master)
+variable.set("None") # default value
+
+w = OptionMenu(master, variable, "Brick", "Block", "Plate", "Sheet", "Tile", "None")
+w.pack()
+
+mainloop()
+'''

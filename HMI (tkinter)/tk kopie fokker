@@ -5,24 +5,23 @@ from tkinter.messagebox import showinfo
 from PIL import Image, ImageTk
 
 window = tk.Tk()
-window.title('HMI Fokker')
-window.geometry("1366x766")
+window.title('BSL Bricks')
+window.geometry("1300x700")
 window.resizable(True, True)
 # running = False
 window.configure(background = "white")
 
 
 def start():
-    print("Mijn naam is Wendy, hoe heet jij?")
+    print("Hier moeten keuzevakjes komen.")
 
-canvas=Canvas(window, width=2000, height=2000, bg = 'white')
+canvas=Canvas(window, width=2000, height=2000, bg = 'pink')
 canvas.pack()
    
  
 
-BSL_button= Button(window , borderwidth = 0).place(x=1195, y=20)
 
-start_button = Button(window , text = "Start\n process", command = start, height = 2 , width = 10, bg = "green" , fg = 'white'
+start_button = Button(window , text = "Start\n sorting", command = start, height = 2 , width = 10, bg = "purple" , fg = 'white'
               ,font = "Segoe 40 bold" , borderwidth = 10).place(x=20, y=20)
 
 window.mainloop()
