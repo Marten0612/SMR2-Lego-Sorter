@@ -1,7 +1,6 @@
 import tkinter  as tk 
 #from tkinter import ttk
 from tkinter import *
-import time
 from PIL import Image, ImageTk
 
 #Open window
@@ -25,27 +24,11 @@ canvas.create_text(800, 50, text = "BSL BRICKS", font = ('Helvetica 40 bold'), f
 def start():
     size_Lego = variable_inputsize.get()
     containerList = [None] * 8
-    containerList[0] = variable_container_1.get()
-    containerList[1] = variable_container_2.get()
-    containerList[2] = variable_container_3.get()
-    containerList[3] = variable_container_4.get()
-    containerList[4] = variable_container_5.get()
-    containerList[5] = variable_container_6.get()
-    containerList[6] = variable_container_7.get()
-    containerList[7] = variable_container_8.get()
+    for i in range(total_containers):
+        containerList[i] = globals()[f"variable_container_{i+1}"].get()
+    
     print(size_Lego)
     print(containerList)
-
-    time.sleep(0.5)
-    window.destroy()
-
-    window_sort = tk.Tk()
-    window_sort.title('BSL Bricks')
-    window_sort.geometry('300x200')
-    window_sort.resizable(True, True)
-    window_sort.configure(background = 'white')
-    label_sort = tk.Label(window_sort, text = "\n\nThe sorting will start now.", font = 'Helvetica 16', bg = 'white')
-    label_sort.pack()
 
     print("De machine start met sorteren.")
     #machine_learning_function(size_Lego, containerList)
@@ -68,35 +51,57 @@ Label_start_button.place(x = 1000, y = 300)
 start_button = Button(window, text = "Start\n sorting", command = start, height = 2, width = 10, bg = "red", fg = 'white', 
                       font = "Helvetica 30 bold", borderwidth = 10).place(x=1000, y=350)
 
-#Variabelen
+#Variables
+total_containers = 8
 variable_inputsize = StringVar(window)
 variable_inputsize.set("Size") # default value
-variable_container_1 = StringVar(window)
-variable_container_1.set("None") # default value
-variable_container_2 = StringVar(window)
-variable_container_2.set("None") # default value
-variable_container_3 = StringVar(window)
-variable_container_3.set("None") # default value
-variable_container_4 = StringVar(window)
-variable_container_4.set("None") # default value
-variable_container_5 = StringVar(window)
-variable_container_5.set("None") # default value
-variable_container_6 = StringVar(window)
-variable_container_6.set("None") # default value
-variable_container_7 = StringVar(window)
-variable_container_7.set("None") # default value
-variable_container_8 = StringVar(window)
-variable_container_8.set("None") # default value
+for i in range(total_containers):
+    globals()[f"variable_container_{i+1}"] = StringVar(window)
+    globals()[f"variable_container_{i+1}"].set("None")
 
-#optionmenus   
+#Optionmenus 
+OptionList_inputsize = ["tray 2", "tray 3 to 5", "tray 6"]  
 OptionList_mainclasses = ["Brick", "Block", "Plate", "Sheet", "Tile", "None"]
-OptionList_inputsize = ["tray 2", "tray 3 to 5", "tray 6"]
-#inputsize
+#Inputsize
 opt_inputsize = tk.OptionMenu(window, variable_inputsize, *OptionList_inputsize)
 opt_inputsize.config(width = 10, font = ('Helvetica', 12))
 opt_inputsize.pack(side = 'top')
 opt_inputsize.pack()
 opt_inputsize.place(x = 100, y = 250)
+
+loc_container_1 = (100, 430)
+afstand_x = 200
+afstand_y = 100
+afstand_label = 30
+#Containers
+for i in range(total_containers):
+    if i / 2 <= 1:
+        loc_x = loc_container_1[0]
+    elif i / 2 <= 2:
+        loc_x = loc_container_1[0] + afstand_x
+    elif i / 2 <= 3:
+        loc_x = loc_container_1[0] + 2 * afstand_x
+    elif i / 2 <= 4:
+        loc_x = loc_container_1[0] + 3 * afstand_x
+    else:
+        print("This has not yet been made.")
+
+    if i % 2 == 0:
+        loc_y = loc_container_1[1] + afstand_y
+    else:
+        loc_y = loc_container_1[1]
+
+    globals()[f"opt_container_{i+1}"] = tk.OptionMenu(window, globals()[f"variable_container_{i+1}"], *OptionList_mainclasses)
+    globals()[f"opt_container_{i+1}"].config(width = 10, font = ('Helvetica', 12))
+    globals()[f"opt_container_{i+1}"].pack(side = 'top')
+    globals()[f"opt_container_{i+1}"].pack()
+    globals()[f"opt_container_{i+1}"].place(x = loc_x, y = loc_y)
+
+    globals()[f"label_container_{i+1}"] = tk.Label(text = "container " + str(i), font = ('Helvetica', 12), fg = 'red', bg = 'white')
+    globals()[f"label_container_{i+1}"].pack(side = 'top')
+    globals()[f"label_container_{i+1}"].place(x = loc_x, y = loc_y - afstand_label)
+
+''' 
 #container 1
 opt_container_1 = tk.OptionMenu(window, variable_container_1, *OptionList_mainclasses)
 opt_container_1.config(width = 10, font = ('Helvetica', 12))
@@ -169,6 +174,6 @@ opt_container_8.place(x = 700, y = 530)
 label_container_8 = tk.Label(text = "container 8", font = ('Helvetica', 12), fg = 'red', bg = 'white')
 label_container_8.pack(side = 'top')
 label_container_8.place(x = 700, y = 500)
-
+'''
 window.mainloop()
 
