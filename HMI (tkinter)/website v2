@@ -1,0 +1,75 @@
+import tkinter  as tk 
+from tkinter import ttk
+from tkinter import *
+import time
+
+#open window
+window = tk.Tk()
+window.title('BSL Bricks')
+window.geometry("1300x700")
+window.resizable(True, True)
+window.configure(background = "pink")
+
+#functions of the buttons
+def start():
+    bakkenList = [None] * 8
+    bak_1 = variable_bak_1.get()
+    bakkenList[0] = bak_1
+    bak_2 = variable_bak_2.get()
+    bakkenList[1] = bak_2
+    
+    print(bakkenList)
+    print("De machine start met sorteren.")
+    #machine_learning_function(sort_Lego, bakkenList)
+ 
+    time.sleep(0.5)
+    window.destroy() 
+    
+
+#buttons
+start_button = Button(window , text = "Start\n sorting", command = start, height = 2 , width = 10, bg = "purple" , fg = 'white'
+              ,font = "Segoe 40 bold" , borderwidth = 10).place(x=500, y=500)
+
+#variabelen
+variable_bak_1 = StringVar(window)
+variable_bak_1.set("None") # default value
+variable_bak_2 = StringVar(window)
+variable_bak_2.set("None") # default value
+variable_bak_3 = StringVar(window)
+variable_bak_3.set("None") # default value
+variable_bak_4 = StringVar(window)
+variable_bak_4.set("None") # default value
+variable_bak_5 = StringVar(window)
+variable_bak_5.set("None") # default value
+variable_bak_6 = StringVar(window)
+variable_bak_6.set("None") # default value
+variable_bak_7 = StringVar(window)
+variable_bak_7.set("None") # default value
+variable_bak_8 = StringVar(window)
+variable_bak_8.set("None") # default value
+
+
+#optionmenus   
+OptionList = ["Brick", "Block", "Plate", "Sheet", "Tile", "None"]
+#bak1
+opt_bak_1 = tk.OptionMenu(window, variable_bak_1, *OptionList)
+opt_bak_1.config(width=10, font=('Helvetica', 12))
+opt_bak_1.pack(side="top")
+opt_bak_1.pack()
+opt_bak_1.place(x=100, y=100)
+label_bak_1 = tk.Label(text="bak 1", font=('Helvetica', 12), fg='red')
+label_bak_1.pack(side="top")
+label_bak_1.place(x=100, y=80)
+#bak2
+opt_bak_2 = tk.OptionMenu(window, variable_bak_2, *OptionList)
+opt_bak_2.config(width=10, font=('Helvetica', 12))
+opt_bak_2.pack(side="top")
+opt_bak_2.pack()
+opt_bak_2.place(x=300, y=100)
+label_bak_2 = tk.Label(text="bak 2", font=('Helvetica', 12), fg='red')
+label_bak_2.pack(side="top")
+label_bak_2.place(x=300, y=80)
+
+
+window.mainloop()
+
