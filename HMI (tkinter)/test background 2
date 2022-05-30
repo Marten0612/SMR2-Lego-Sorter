@@ -1,3 +1,6 @@
+#.create_image(x, y, image=image, options) and .create_text(x, y, text="Some text", options)
+
+
 import tkinter  as tk 
 from tkinter import ttk
 from tkinter import *
@@ -9,18 +12,33 @@ window = tk.Tk()
 window.title('BSL Bricks')
 window.geometry("1300x700")
 window.resizable(True, True)
-window.configure(background = "white")
 
-#logo
 file_logo = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+
 canvas1 = Canvas(window, width=1300, height=100)
 img = ImageTk.PhotoImage(Image.open(file_logo))
+
+
 canvas1.pack()
 canvas1.create_image(0, 0, image = img)
 canvas1.create_image(900, 0, image = img)
-#canvas1.create_text(400, 50, text = "BSL BRICKS", font = ('Helvetica', 24), foreground = 'white')
-canvas1.create_text(650, 50, text = "BSL BRICKS", font = ('Helvetica', 24), fill = "white")
+canvas1.create_text(400, 50, text = "BSL BRICKS")
+'''
+render = ImageTk.PhotoImage(load)
+img = Label(image=render, height = 100)
+img.image = render
+img.place(x=0, y=0)
+img2 = Label(image=render, height = 100)
+img2.image = render
+img2.place(x=900, y=0)
 
+
+
+label_name = tk.Label(text = "BSL", font = ('Helvetica', 12), fg = 'white', bg = 'red')
+label_name.place(x = 400, y = 0)
+'''
+
+window.configure(background = "white")
 
 #functions of the buttons
 def start():
