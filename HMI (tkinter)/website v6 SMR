@@ -198,13 +198,13 @@ start_pause_button = Button(window, text = "Start sorting", command = start_paus
 start_pause_button.place(x=100, y=650) 
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-e_stop_button.place(x=1185, y=150) 
-empty_button = Button(window, text = "Empty\nsystem", command = empty, height = 2, width = 10, bg = 'blue', fg = 'white', 
+e_stop_button.place(x=1185, y=140) 
+empty_button = Button(window, text = "Empty\nsystem", command = empty, height = 2, width = 8, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-empty_button.place(x=1185, y=300)           
-turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 10, bg = 'blue', fg = 'white', 
+empty_button.place(x=1210, y=320)           
+turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 8, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-turn_off__button.place(x=1185, y=450) 
+turn_off__button.place(x=1210, y=470) 
 
 #Variables
 total_containers = 8
