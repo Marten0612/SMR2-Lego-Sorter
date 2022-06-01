@@ -113,7 +113,7 @@ def start_pause():
         #stopmachinefunctie()
         start_pause_button['text'] = "Start sorting"
         start_pause_button['bg'] = 'green'
-        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
+        canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
     else:
         print("Something is wrong")
 

@@ -1,10 +1,8 @@
-import Webtools.Buttons as Buttons
+import Webtools.Functions as Functions
 
 import tkinter  as tk 
 from tkinter import *
 from PIL import Image, ImageTk
-
-
 
 #Open window
 window = tk.Tk()
@@ -39,8 +37,8 @@ file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-
 canvas_logo_SMR = Canvas(window, width=500, height=100, highlightthickness = 0)
 canvas_logo_SMR.pack(fill=BOTH, expand=True)
 canvas_logo_SMR.place(x = 1106, y = 0)
-logo_SMR = resize_image(file_logo_SMR, 1.7)
-canvas_logo_SMR.create_image(0, 0, image=image2, anchor='nw')
+logo_SMR = Functions.resize_image(file_logo_SMR, 1.7)
+canvas_logo_SMR.create_image(0, 0, image=logo_SMR, anchor='nw')
 
 #functions of the buttons
 def start_pause():
@@ -51,7 +49,7 @@ def start_pause():
         for i in range(total_containers):
             containerList[i] = globals()[f"variable_container_{i+1}"].get()
 
-        proceed = checks(proceed, containerList, size_Lego)
+        proceed = Functions.checks(proceed, containerList, size_Lego)
         if proceed == True:
             print("De machine start met sorteren.")
             #machine_learning_function(size_Lego, containerList)
@@ -112,7 +110,7 @@ def e_stop():
         e_stop_window.destroy()
         start_pause_button['text'] = "Start sorting"
         start_pause_button['bg'] = 'green'
-        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
+        canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
 
     font_buttons = 'Helvetica 28 bold'
     abort_button = Button(e_stop_window, text = "Abort\n sorting", command = abort, height = 2, width = 10, bg = 'red', fg = 'white', 
@@ -215,6 +213,3 @@ for i in range(1, total_containers + 1):
     globals()[f"label_container_{i}"].place(x = loc_x, y = loc_y - afstand_label)
 
 window.mainloop()
-
-
-
