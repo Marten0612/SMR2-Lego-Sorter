@@ -1,0 +1,2 @@
+containerList = [None] * 8
+print(bool(containerList))
