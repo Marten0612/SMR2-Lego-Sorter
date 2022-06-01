@@ -1,5 +1,5 @@
 #include <FastLED.h>                  //LED
-#define NUM_LEDS 27                   //aantal leds op strip
+#define NUM_LEDS 12                   //aantal leds op strip
 #define DATA_PIN 52                    //pin uitvoer data ledstrip
 #define BRIGHTNESS 100                //lichtsterkte led strip
 #define LEDPIN 13

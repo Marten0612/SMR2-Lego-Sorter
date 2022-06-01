@@ -7,17 +7,24 @@ cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
 cam3 = cv2.VideoCapture(3)
 
+
+fourcc = cv2.VideoWriter_fourcc('Y','U','V','Y')
+
+
+
+
+
 cam1.set(0,0.0)
 cam1.set(1,0.0)
 cam1.set(2,-1.0)
 cam1.set(3,1280)
 cam1.set(4,720)
 cam1.set(5,30.0)
-cam1.set(6,22.0)
+cam1.set(6, fourcc)
 cam1.set(7,-1.0)
 cam1.set(8,-1.0)
 cam1.set(9,1.0)
-cam1.set(10,0.0)
+cam1.set(10,10.0) #0
 cam1.set(11,32.0)
 cam1.set(12,32.0)
 cam1.set(13,0.0)
@@ -46,12 +53,12 @@ cam1.set(35,-1.0)
 cam1.set(36,-1.0)
 cam1.set(37,1.0)
 cam1.set(38,1.0)
-cam1.set(39,-1.0)
+cam1.set(39,1.0) ## -1
 cam1.set(40,1.0)
 cam1.set(41,1.0)
 #cam1.set(42,1400.0)
 cam1.set(43,-1.0)
-cam1.set(44,-1.0)
+cam1.set(44,1.0) ##-1
 cam1.set(45,-1.0)
 cam1.set(46,-1.0)
 
@@ -61,11 +68,11 @@ cam2.set(2,-1.0)
 cam2.set(3,1280)
 cam2.set(4,720)
 cam2.set(5,30.0)
-cam2.set(6,22.0)
+cam2.set(6, fourcc)
 cam2.set(7,-1.0)
 cam2.set(8,-1.0)
 cam2.set(9,1.0)
-cam2.set(10,0.0)
+cam2.set(10,10.0)#0
 cam2.set(11,32.0)
 cam2.set(12,32.0)
 cam2.set(13,0.0)
@@ -94,12 +101,12 @@ cam2.set(35,-1.0)
 cam2.set(36,-1.0)
 cam2.set(37,1.0)
 cam2.set(38,1.0)
-cam2.set(39,-1.0)
+cam2.set(39,1.0) ## -1
 cam2.set(40,1.0)
 cam2.set(41,1.0)
 #cam2.set(42,1400.0)
 cam2.set(43,-1.0)
-cam2.set(44,-1.0)
+cam2.set(44,1.0) ##-1
 cam2.set(45,-1.0)
 cam2.set(46,-1.0)
 
@@ -109,7 +116,7 @@ cam3.set(2,-1.0)
 cam3.set(3,1280)
 cam3.set(4,720)
 cam3.set(5,30.0)
-cam3.set(6,22.0)
+cam3.set(6, fourcc)
 cam3.set(7,-1.0)
 cam3.set(8,-1.0)
 cam3.set(9,1.0)
@@ -142,24 +149,24 @@ cam3.set(35,-1.0)
 cam3.set(36,-1.0)
 cam3.set(37,1.0)
 cam3.set(38,1.0)
-cam3.set(39,-1.0)
+cam3.set(39,1.0) ##-1
 cam3.set(40,1.0)
 cam3.set(41,1.0)
 #cam3.set(42,1400.0)
 cam3.set(43,-1.0)
 cam3.set(44,-1.0)
-cam3.set(45,-1.0)
+cam3.set(45,1.0) ## -1
 cam3.set(46,-1.0)
 
 for i in range(47):
     print("No.={} parameter={}".format(i,cam1.get(i)))
 for k in range(47):
-    print("No.={} parameter={}".format(k,cam2.get(i)))
+    print("No.={} parameter={}".format(k,cam2.get(k)))
 for j in range(47):
-    print("No.={} parameter={}".format(j,cam3.get(i)))
+    print("No.={} parameter={}".format(j,cam3.get(j)))
 
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
-counter = 100
+counter = 200
 
 while True:
     time.sleep(0.04)
