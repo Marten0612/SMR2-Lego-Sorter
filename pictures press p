@@ -67,15 +67,15 @@ while True:
             number2 = (counter + 1)
             number3 = (counter + 2)
             #cv2.imwrite("Brick%d.jpg" % number1, frame1)
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\3003_2x2_Block\3003_2x2_Block_%d.png" % number1, frame1)
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\3003_2x2_Block\3003_2x2_Block_%d.png" % number2, frame2)
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\3003_2x2_Block\3003_2x2_Block_%d.png" % number3, frame3)   
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\2431_1x4_Tile\2431_1x4_Tile_%d.png" % number1, frame1)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\2431_1x4_Tile\2431_1x4_Tile_%d.png" % number2, frame2)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\2431_1x4_Tile\2431_1x4_Tile_%d.png" % number3, frame3)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
-            frame1 = None
-            frame2 = None
-            frame3 = None
+            del frame1
+            del frame2 
+            del frame3 
 
             counter += 3
             # cv2.waitKey(0) 
