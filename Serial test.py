@@ -2,6 +2,7 @@
 import serial
 import time
 import cv2
+import keyboard
 
 cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
@@ -31,8 +32,7 @@ while True:
     # data = int.from_bytes(data,"big")#.decode('ascii')
 
     #if (data == 49):    
-    k = cv2.waitKey(1)
-    if k%256 == 32:#Space pressed 
+    if keyboard.is_pressed("q"):
         # time.sleep(3)
         print("Take photo")
         ret1, frame1 = cam1.read()

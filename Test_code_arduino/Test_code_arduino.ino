@@ -1,10 +1,5 @@
-#include <FastLED.h>                  //LED
-#define NUM_LEDS 12                   //aantal leds op strip
-#define DATA_PIN 52                    //pin uitvoer data ledstrip
-#define BRIGHTNESS 100                //lichtsterkte led strip
 #define LEDPIN 13
 #define SENSORPIN 53
-CRGB leds[NUM_LEDS]; 
 
 // variables will change:
 int x;
@@ -18,12 +13,6 @@ void setup() {
   digitalWrite(SENSORPIN, HIGH); // turn on the pullup
   Serial.begin(115200);
   Serial.setTimeout(1);
-  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
-  LEDS.setBrightness(BRIGHTNESS);
-  FastLED.show();
-  for (int i=0; i<NUM_LEDS; i++)
-  leds[i] = CRGB::Moccasin;
-  FastLED.show(); 
 }
 
 void loop(){
