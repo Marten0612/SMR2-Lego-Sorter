@@ -42,9 +42,6 @@ while True:
     print(6)
     
     if (data == 49):   
-
-    #if (data == 49):    
-    if keyboard.is_pressed("q"):
         # time.sleep(3)
         print("Take photo")
         ret1, frame1 = cam1.read()
