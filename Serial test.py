@@ -3,6 +3,9 @@ import serial
 import time
 import cv2
 
+from pynput import keyboard
+
+
 cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
 cam3 = cv2.VideoCapture(3)
@@ -30,34 +33,41 @@ while True:
     # data = arduino.readline()
     # data = int.from_bytes(data,"big")#.decode('ascii')
 
-    #if (data == 49):    
-    k = cv2.waitKey(1)
-    if k%256 == 32:#Space pressed 
-        # time.sleep(3)
-        print("Take photo")
-        ret1, frame1 = cam1.read()
-        ret2, frame2 = cam2.read()
-        ret3, frame3 = cam3.read()
-        if not (ret1 or ret2 or ret3):
-            print("failed to grab frame")
-            break
-        # cv2.imshow("t", frame1)
-        # cv2.imshow("d", frame2)
-        # cv2.imshow("s", frame3)
-        number1 = counter 
-        number2 = (counter + 1)
-        number3 = (counter + 2)
-        #cv2.imwrite("Brick%d.jpg" % number1, frame1)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number1, frame1)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number2, frame2)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number3, frame3)   
-        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
-        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
-        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
+    #if (data == 49):   
+    
+    import keyboard #pip3 install keyboard
 
-        counter += 3
-        # cv2.waitKey(0) 
-        # cv2.destroyAllWindows() 
+    while True:
+        if keyboard.read_key() == "p":
+               
+    
+        #k = cv2.waitKey(1)
+
+        # time.sleep(3)
+            print("Take photo")
+            ret1, frame1 = cam1.read()
+            ret2, frame2 = cam2.read()
+            ret3, frame3 = cam3.read()
+            if not (ret1 or ret2 or ret3):
+                print("failed to grab frame")
+                break
+            # cv2.imshow("t", frame1)
+            # cv2.imshow("d", frame2)
+            # cv2.imshow("s", frame3)
+            number1 = counter 
+            number2 = (counter + 1)
+            number3 = (counter + 2)
+            #cv2.imwrite("Brick%d.jpg" % number1, frame1)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number1, frame1)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number2, frame2)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number3, frame3)   
+            #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
+            #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
+            #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
+
+            counter += 3
+            # cv2.waitKey(0) 
+            # cv2.destroyAllWindows() 
 
 cam1.release()
 cam2.release()
