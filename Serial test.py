@@ -7,6 +7,21 @@ cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
 cam3 = cv2.VideoCapture(3)
 
+cam1.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+cam1.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+cam1.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
+cam1.set(cv2.CAP_PROP_FOCUS,400.0)
+
+cam2.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+cam2.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+cam2.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
+cam2.set(cv2.CAP_PROP_FOCUS,400.0)
+
+cam3.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+cam3.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+cam3.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
+cam3.set(cv2.CAP_PROP_FOCUS,400.0)
+
 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 counter = 1
 
