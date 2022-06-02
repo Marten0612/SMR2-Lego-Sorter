@@ -14,16 +14,16 @@ def resize_image(file, devider): # Function to resize the window
 def checks(proceed, containerList, size_Lego):
     checklist = [x for x in containerList if x != 'None']
     if len(checklist) == 0:
-        forgot()
+        window_forgot()
     elif size_Lego == 'Size':
-        forgot()
+        window_forgot()
     elif len(checklist) != len(set(checklist)):
-        forgot()
+        window_forgot()
     else:
         proceed = True
         return (proceed)
         
-def forgot():
+def window_forgot():
     forgot_window = tk.Tk()
     forgot_window.title('BSL Bricks')
     forgot_window.geometry('800x400')
@@ -48,7 +48,72 @@ def forgot():
                       font = font_buttons, borderwidth = 10)
     ok_button.place(x=250, y=280) 
 
-#Open window
+def window_e_stop():
+    e_stop_window = tk.Tk()
+    e_stop_window.title('BSL Bricks')
+    e_stop_window.geometry('800x600')
+    e_stop_window.resizable(True, True)
+    e_stop_window.configure(background = 'white')
+
+    label_e_stop = tk.Label(e_stop_window, text = "\n\n\nE-stop activated", font = 'Helvetica 40 bold', fg = 'red', bg = 'white')
+    label_e_stop.pack(side = 'top')
+
+    def abort():
+        e_stop_window.destroy()
+        window.destroy()
+
+    def continu():
+        opt_inputsize.config(state = 'normal') #enable inputsize menu
+        for i in range(1, total_containers + 1): #enable container menu's
+            globals()[f"opt_container_{i}"].config(state = 'normal')
+        start_pause_button['state'] = NORMAL
+        e_stop_button['state'] = NORMAL
+        empty_button['state'] = NORMAL
+        turn_off__button['state'] = NORMAL
+        e_stop_window.destroy()
+        start_pause_button['text'] = "Start sorting"
+        start_pause_button['bg'] = 'green'
+        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
+
+    font_buttons = 'Helvetica 28 bold'
+    abort_button = Button(e_stop_window, text = "Abort\n sorting", command = abort, height = 2, width = 10, bg = 'red', fg = 'white', 
+                      font = font_buttons, borderwidth = 10)
+    abort_button.place(x=100, y=300) 
+    continue_button = Button(e_stop_window, text = "Continue", command = continu, height = 2, width = 10, bg = 'blue', fg = 'white', 
+                      font = font_buttons, borderwidth = 10)
+    continue_button.place(x=400, y=300) 
+
+def placement_optionmenus_containers(): 
+    for i in range(1, total_containers + 1):
+        #location optionmenu is calculated
+        if i / 2 <= 1:
+            loc_x = loc_container_1[0]
+        elif i / 2 <= 2:
+            loc_x = loc_container_1[0] + afstand_x
+        elif i / 2 <= 3:
+            loc_x = loc_container_1[0] + 2 * afstand_x
+        elif i / 2 <= 4:
+            loc_x = loc_container_1[0] + 3 * afstand_x
+        else:
+            print("This has not yet been made.")
+
+        if i % 2 == 0:
+            loc_y = loc_container_1[1] + afstand_y
+        else:
+            loc_y = loc_container_1[1]
+        #optionmenu is placed
+        globals()[f"opt_container_{i}"] = tk.OptionMenu(window, globals()[f"variable_container_{i}"], *OptionList_mainclasses)
+        globals()[f"opt_container_{i}"].config(width = 10, font = font_opt_menu)
+        globals()[f"opt_container_{i}"].pack(side = 'top')
+        globals()[f"opt_container_{i}"].pack()
+        globals()[f"opt_container_{i}"].place(x = loc_x, y = loc_y)
+        #label optionmenu is placed
+        globals()[f"label_container_{i}"] = tk.Label(text = "container " + str(i), font = font_opt_menu, fg = 'red', bg = 'white')
+        globals()[f"label_container_{i}"].pack(side = 'top')
+        globals()[f"label_container_{i}"].place(x = loc_x, y = loc_y - afstand_label)
+
+
+#Open main window
 window = tk.Tk()
 window.title('BSL Bricks')
 window.geometry('1600x800')
@@ -84,7 +149,7 @@ canvas_logo_SMR.place(x = 1106, y = 0)
 logo_SMR = resize_image(file_logo_SMR, 1.7)
 canvas_logo_SMR.create_image(0, 0, image=logo_SMR, anchor='nw')
 
-#functions of the buttons
+#functions of the buttons of main window
 def start_pause():
     proceed = False
     if start_pause_button['text'] == "Start sorting":
@@ -129,48 +194,15 @@ def e_stop():
     empty_button['state'] = DISABLED
     turn_off__button['state'] = DISABLED
     canvas_statusbar.itemconfig(text_statusbar, text = "E-STOP")
-
-    e_stop_window = tk.Tk()
-    e_stop_window.title('BSL Bricks')
-    e_stop_window.geometry('800x600')
-    e_stop_window.resizable(True, True)
-    e_stop_window.configure(background = 'white')
-
-    label_e_stop = tk.Label(e_stop_window, text = "\n\n\nE-stop activated", font = 'Helvetica 40 bold', fg = 'red', bg = 'white')
-    label_e_stop.pack(side = 'top')
-
-    def abort():
-        e_stop_window.destroy()
-        window.destroy()
-
-    def continu():
-        opt_inputsize.config(state = 'normal') #enable inputsize menu
-        for i in range(1, total_containers + 1): #enable container menu's
-            globals()[f"opt_container_{i}"].config(state = 'normal')
-        start_pause_button['state'] = NORMAL
-        e_stop_button['state'] = NORMAL
-        empty_button['state'] = NORMAL
-        turn_off__button['state'] = NORMAL
-        e_stop_window.destroy()
-        start_pause_button['text'] = "Start sorting"
-        start_pause_button['bg'] = 'green'
-        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
-
-    font_buttons = 'Helvetica 28 bold'
-    abort_button = Button(e_stop_window, text = "Abort\n sorting", command = abort, height = 2, width = 10, bg = 'red', fg = 'white', 
-                      font = font_buttons, borderwidth = 10)
-    abort_button.place(x=100, y=300) 
-    continue_button = Button(e_stop_window, text = "Continue", command = continu, height = 2, width = 10, bg = 'blue', fg = 'white', 
-                      font = font_buttons, borderwidth = 10)
-    continue_button.place(x=400, y=300) 
-
+    window_e_stop()
+   
 def empty():
-    pass
+    print("Machine will be stopped\nPlease empty machine")
 
 def off():
     print("Machine will be turned off")
 
-#Main labels
+#Labels main window
 font_welcome = 'Helvetica 30 bold'
 font_other_labels = 'Helvetica 20'
 label_welcome = tk.Label(text = "The LEGO sorter", font = font_welcome, fg = 'red', bg = 'white')
@@ -190,7 +222,7 @@ Label_names = tk.Label(text = "This machine is provided by SMR students: Marten 
 Label_names.pack(side = 'top')
 Label_names.place(x = 130, y = 770)
 
-#Buttons
+#Buttons main window
 font_buttons = 'Helvetica 28 bold'
 start_pause_button = Button(window, text = "Start sorting", command = start_pause, height = 1, width = 40, bg = 'green', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
@@ -228,33 +260,7 @@ opt_inputsize.pack(side = 'top')
 opt_inputsize.pack()
 opt_inputsize.place(x = 100, y = 205)
 #Containers
-for i in range(1, total_containers + 1):
-    #location optionmenu is calculated
-    if i / 2 <= 1:
-        loc_x = loc_container_1[0]
-    elif i / 2 <= 2:
-        loc_x = loc_container_1[0] + afstand_x
-    elif i / 2 <= 3:
-        loc_x = loc_container_1[0] + 2 * afstand_x
-    elif i / 2 <= 4:
-        loc_x = loc_container_1[0] + 3 * afstand_x
-    else:
-        print("This has not yet been made.")
-
-    if i % 2 == 0:
-        loc_y = loc_container_1[1] + afstand_y
-    else:
-        loc_y = loc_container_1[1]
-    #optionmenu is placed
-    globals()[f"opt_container_{i}"] = tk.OptionMenu(window, globals()[f"variable_container_{i}"], *OptionList_mainclasses)
-    globals()[f"opt_container_{i}"].config(width = 10, font = font_opt_menu)
-    globals()[f"opt_container_{i}"].pack(side = 'top')
-    globals()[f"opt_container_{i}"].pack()
-    globals()[f"opt_container_{i}"].place(x = loc_x, y = loc_y)
-    #label optionmenu is placed
-    globals()[f"label_container_{i}"] = tk.Label(text = "container " + str(i), font = font_opt_menu, fg = 'red', bg = 'white')
-    globals()[f"label_container_{i}"].pack(side = 'top')
-    globals()[f"label_container_{i}"].place(x = loc_x, y = loc_y - afstand_label)
+placement_optionmenus_containers()
 
 window.mainloop()
 
