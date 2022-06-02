@@ -5,7 +5,7 @@ import cv2
 
 from pynput import keyboard
 print(1)
-
+'''
 cam1 = cv2.VideoCapture(1)
 cam2 = cv2.VideoCapture(2)
 cam3 = cv2.VideoCapture(3)
@@ -14,7 +14,7 @@ cam1 = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 cam2 = cv2.VideoCapture(2, cv2.CAP_DSHOW)
 cam3 = cv2.VideoCapture(3, cv2.CAP_DSHOW)
 time.sleep(0.001)
-'''
+
 print(2)
 cam1.set(cv2.CAP_PROP_FRAME_WIDTH,640)
 cam1.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
@@ -44,8 +44,11 @@ while True:
     import keyboard #pip3 install keyboard
 
     while True:
+
+
+        
         if keyboard.read_key() == "p":
-               
+            time.sleep(1)       
     
         #k = cv2.waitKey(1)
 
