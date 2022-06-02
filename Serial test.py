@@ -32,21 +32,25 @@ cam3.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
 cam3.set(cv2.CAP_PROP_FOCUS,400.0)
 print(5)
 
-arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+arduino = serial.Serial(port='COM3', baudrate=115200, timeout=.1)
 counter = 1
+print(6)
 
 while True:
     time.sleep(0.04)
     data = arduino.readline()
     data = int.from_bytes(data,"big")#.decode('ascii')
-    print(6)
+    print(7)
     
     if (data == 49):   
         # time.sleep(3)
         print("Take photo")
         ret1, frame1 = cam1.read()
+        print(8)
         ret2, frame2 = cam2.read()
+        print(9)
         ret3, frame3 = cam3.read()
+        print(10)
         if not (ret1 or ret2 or ret3):
             print("failed to grab frame")
             break
