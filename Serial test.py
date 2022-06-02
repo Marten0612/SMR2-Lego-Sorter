@@ -22,7 +22,7 @@ cam3.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
 cam3.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
 cam3.set(cv2.CAP_PROP_FOCUS,400.0)
 
-arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+#arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 counter = 1
 
 while True:
@@ -48,9 +48,13 @@ while True:
         number2 = (counter + 1)
         number3 = (counter + 2)
         #cv2.imwrite("Brick%d.jpg" % number1, frame1)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
-        cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
+        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number1, frame1)
+        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number2, frame2)
+        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number3, frame3)   
+        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
+        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
+        #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
+
         counter += 3
         # cv2.waitKey(0) 
         # cv2.destroyAllWindows() 
