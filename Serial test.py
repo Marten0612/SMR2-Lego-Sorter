@@ -27,11 +27,14 @@ counter = 1
 
 while True:
     time.sleep(0.04)
-    data = arduino.readline()
-    data = int.from_bytes(data,"big")#.decode('ascii')
-    
-    if (data == 49):
-        time.sleep(3)
+    # data = arduino.readline()
+    # data = int.from_bytes(data,"big")#.decode('ascii')
+
+    #if (data == 49):    
+    k = cv2.waitKey(1)
+    if k%256 == 32:#Space pressed 
+        # time.sleep(3)
+        print("Take photo")
         ret1, frame1 = cam1.read()
         ret2, frame2 = cam2.read()
         ret3, frame3 = cam3.read()
