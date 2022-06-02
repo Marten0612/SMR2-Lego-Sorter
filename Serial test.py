@@ -46,10 +46,13 @@ while True:
         # time.sleep(3)
         print("Take photo")
         ret1, frame1 = cam1.read()
+        print("picture 1 = {}".format(ret1))
         print(8)
         ret2, frame2 = cam2.read()
+        print("picture 2 = {}".format(ret2))
         print(9)
         ret3, frame3 = cam3.read()
+        print("picture 3 = {}".format(ret3))
         print(10)
         if not (ret1 or ret2 or ret3):
             print("failed to grab frame")
