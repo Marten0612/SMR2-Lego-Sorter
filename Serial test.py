@@ -38,11 +38,10 @@ while True:
     time.sleep(0.04)
     data = arduino.readline()
     data = int.from_bytes(data,"big")#.decode('ascii')
-
-    #if (data == 49):   
     print(6)
+    
+    if (data == 49):   
 
-    while True:
         # time.sleep(3)
         print("Take photo")
         ret1, frame1 = cam1.read()
