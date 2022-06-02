@@ -1,10 +1,9 @@
-import tkinter  as tk 
+import tkinter as tk 
 from tkinter import *
 from PIL import Image, ImageTk
 
 #Non button functions:
 def resize_image(file, devider): # Function to resize the window
-   global image, resized, image2
    image = Image.open(file)   # open image to resize it
    wid = round(int(image.width) / devider)   # resize the image with width and height of root
    hig = round(int(image.height) / devider)
@@ -48,3 +47,8 @@ def forgot():
     ok_button = Button(forgot_window, text = "OK", command = ok, height = 1, width = 10, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
     ok_button.place(x=250, y=280) 
+
+
+
+
+
