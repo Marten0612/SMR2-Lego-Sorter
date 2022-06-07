@@ -32,7 +32,7 @@ cam3.set(cv2.CAP_PROP_AUTOFOCUS,-1.0)
 cam3.set(cv2.CAP_PROP_FOCUS,400.0)
 print(5)
 #arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
-counter = 1 
+counter = 200
 
 while True:
     time.sleep(0.04)
@@ -70,9 +70,9 @@ while True:
             #plate = ""
             #sheet = ""
             #tile = ""
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\87079_2x4_Tile (nog niet gefilterd)\87079_2x4_Tile_%d.png" % number1, frame1)
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\87079_2x4_Tile (nog niet gefilterd)\87079_2x4_Tile_%d.png" % number2, frame2)
-            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Tiles\87079_2x4_Tile (nog niet gefilterd)\87079_2x4_Tile_%d.png" % number3, frame3)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Bricks\extra\3001_1x8_Brick_%d.png" % number1, frame1)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Bricks\extra\3001_1x8_Brick_%d.png" % number2, frame2)
+            cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Bricks\extra\3001_1x8_Brick_%d.png" % number3, frame3)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
             #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
@@ -81,7 +81,7 @@ while True:
             del frame3 
 
             counter += 3
-            # cv2.waitKey(0) 
+            # cv2.waitKey(0)
             # cv2.destroyAllWindows() 
 
         if keyboard.read_key() == "q":
