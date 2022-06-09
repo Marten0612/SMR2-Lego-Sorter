@@ -41,7 +41,7 @@ cam3.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # set buffer size
 
 print(5)
 #arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
-counter = 1000
+counter = 2000
 
 while True:
     time.sleep(0.04)
@@ -51,7 +51,7 @@ while True:
     #if (data == 49):   
     print(6)
     import keyboard #pip3 install keyboard
-
+    from PIL import Image, ImageGrab
     while True:
 
         if keyboard.read_key() == "p":
@@ -61,9 +61,9 @@ while True:
 
         # time.sleep(3)
             print("Take photo")
-            ret1, frame1 = cam1.read()
-            ret2, frame2 = cam2.read()
-            ret3, frame3 = cam3.read()
+            frame1 = ImageGrab.grab(bbox = cam1)
+            ret2, frame2 = cam2.grab()
+            ret3, frame3 = cam3.grab()
             if not (ret1 or ret2 or ret3):
                 print("failed to grab frame")
                 break
