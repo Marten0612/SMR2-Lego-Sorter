@@ -39,7 +39,7 @@ all_tile = ['3070_1x1_Tile', '3069_1x2_Tile', '63864_1x3_Tile', '2431_1x4_Tile',
             '90498_8x16_Tile'] 
 
 # Model
-model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local', _verbose=False)  # local repo
+model = torch.hub.load('../yolov5', 'custom', path="lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
 #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
 #custom means that we use a model trained by ourselves, instead of a pretrained one.
 #path is the model we use, located in the same file as this code.
@@ -47,9 +47,9 @@ model = torch.hub.load('../yolov5', 'custom', path="best.pt", source='local', _v
 #_verbose=False, zorgt dat het model niet in de terminal wordt laten zien.
 
 # Images
-img0 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img0.png'  
-img1 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img1.png'
-img2 = 'C:\Users\jipra\Documents\GitHub\SMR2-Lego-Sorter\img2.png' 
+img0 = 'C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\TW\\jaar4\\minor\\BSL Bricks\\test\\LEGO_1.png'  
+img1 = 'C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\TW\\jaar4\\minor\\BSL Bricks\\test\\LEGO_2.png'  
+img2 = 'C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\TW\\jaar4\\minor\\BSL Bricks\\test\\LEGO_3.png'  
 images = [img0, img1, img2]
 class_names = [None] * 3
 
