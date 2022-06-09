@@ -5,7 +5,8 @@ import serial
 import time
 import cv2
 import torch
-import time
+
+counter = 0
 
 class camera:
     def __init__(self, speed) -> None:
@@ -39,12 +40,15 @@ class camera:
         self.cam3.set(cv2.CAP_PROP_FOCUS,400.0)
 
     def photo(self): 
-        wait_cal(self.speed,self.distance)
-        ret1, self.frame1 = self.cam1.read()
-        ret2, self.frame2 = self.cam2.read()
-        ret3, self.frame3 = self.cam3.read()
+        time_wait = wait_cal(self.speed,self.distance)
+        time.sleep(time_wait)
+        for i in range(2):
+            ret1, self.frame1 = self.cam1.read()
+            ret2, self.frame2 = self.cam2.read()
+            ret3, self.frame3 = self.cam3.read()
         if not (ret1 or ret2 or ret3):
             print("failed to grab frame")
+
     def release(self):
         self.cam1.release()
         self.cam2.release()
@@ -52,13 +56,14 @@ class camera:
 
 class detect:
     def __init__(self, frame1, frame2, frame3) -> None:
-        self.frame1 = frame1
-        self.frame2 = frame2
-        self.frame3 = frame3
+        self.frame1 = frame1 #Photo 1
+        self.frame2 = frame2 #Photo 2
+        self.frame3 = frame3 #Photo 3
         self.conf_tresh = 0.9 #Confidence treshold
         self.model = None
         self.class_part = None
         self.class_names = [None] * 3
+        self.group = ""
         #These are the groups we will put in our machine
         self.brick = ['3005_1x1_Brick', '3004_1x2_Brick', '3622_1x3_Brick', '3010_1x4_Brick', \
                 '3009_1x6_Brick', '3008_1x8_Brick', '6111_1x10_Brick']
@@ -103,7 +108,7 @@ class detect:
         #source='local' means that the model used is on this computer.
         #_verbose=False, zorgt dat het model niet in de terminal wordt laten zien.
 
-    def detect_brick(self):
+    def brick_detect(self):
         images = [self.frame1, self.frame2, self.frame2]
         for i in range(3): # Go trough all the photo's
             img = images[i]
@@ -119,7 +124,7 @@ class detect:
             else:
                 self.class_names[i] = data.iloc[0]['name']
 
-    def brick_clasify(self): #Determine what class the part is
+    def clasify_brick(self): #Determine what class the part is
         if (self.class_names[0] == self.class_names[1]) and (self.class_names[1] == self.class_names[2]):
             self.class_part = self.class_names[0]
         elif (self.class_names[0] == self.class_names[1]):
@@ -130,7 +135,33 @@ class detect:
             self.class_part = self.class_names[0]
         else:
             self.class_part = 'rest'
-    
+
+    def group_brick(self):
+        for x in self.brick:
+            if self.class_part == x:
+                self.group = 'brick'
+                break
+        for x in self.block:
+            if self.class_part == x:
+                self.group = 'block'
+                break
+        for x in self.plate:
+            if self.class_part == x:
+                self.group = 'plate'
+                break
+        for x in self.sheet:
+            if self.class_part == x:
+                self.group = 'sheet'
+                break
+        for x in self.tile:
+            if self.class_part == x:
+                self.group = 'tile'
+                break
+        if self.group == 'brick' or self.group == 'block' or self.group == 'plate' or self.group == 'sheet' or self.group == 'tile':
+            pass
+        else:
+            self.group = 'rest'
+
 class hopper:
     def __init__(self, hopper_pin, hopper_speed):
         self.hopper_pin = hopper_pin
@@ -151,14 +182,6 @@ class arduino: #Serial communication with arduino
     def read(self):
         self.data = arduino.readline()
         self.data = int.from_bytes(self.data,"big")#.decode('ascii')
-
-class speed_cal: #Calculate speed of conveyor belt v= m/s
-    def __init__(self, time) -> None:
-        self.time = time
-        self.distance = 0.95
-        self.speed
-    def calculate(self):
-        self.speed = self.distance/self.time
 
 class timerError(Exception):
     """A custom exception used to report errors in use of Timer class"""
@@ -182,9 +205,34 @@ class timer:
 
         self.elapsed_time = time.perf_counter() - self._start_time
         self._start_time = None
+
+class brick:
+    def __init__(self, current_time, brick_container):
+        self.last_time = current_time
+        self.servo_time = None
+        self.brick_container = brick_container
+    def calc_time(self):
+        if (self.brick_container == 1 or 2):
+            self.servo_time = self.last_time + "00:00:10"
+
+
+
+
 def wait_cal(speed,distance): #Calculate time to wait
-    return(distance/speed)      
+    return(distance/speed)     
+
+def calculate(time):
+    distance = 0,95 #Distance between two sensors on conveyor belt
+    return(distance/time)
 
 while True:
+    arduino.read()
+
+    if (arduino.data == 48):
+        tim = time.localtime()
+        current_time = time.strftime("%H:%M:%S", tim)
+        #globals()['strg%s' % counter] = brick.__init__(current_time) #https://www.delftstack.com/howto/python/python-dynamic-variable-name/
+        globals()[f"my_variable{counter}"] = brick.__init__(current_time)
+        counter += 1
 
     hopper.turn_on
