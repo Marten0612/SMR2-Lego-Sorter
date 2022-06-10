@@ -5,8 +5,11 @@ import serial
 import time
 import cv2
 import torch
+from datetime import datetime, timedelta
 
-counter = 0
+counter = 0 #Brick counter
+conv_speed = None #Conveyor belt speed
+servo_rot_time = 0.3 #Rotation time 90 degree
 
 class camera:
     def __init__(self, speed) -> None:
@@ -213,24 +216,44 @@ class brick:
         self.brick_container = brick_container
     def calc_time(self):
         if (self.brick_container == 1 or 2):
-            self.servo_time = self.last_time + "00:00:10"
-
-
-
+            distance1 = 0.2
+            time = wait_cal(speed,distance1)
+            wait_time = time - servo_rot_time #Time to get to container - rotation time 90 degree
+            self.servo_time = self.last_time + timedelta(seconds=wait_time)
+        if (self.brick_container == 3 or 4):
+            distance2 = 0.3
+            time = wait_cal(speed,distance2)
+            wait_time = time - servo_rot_time #Time to get to container - rotation time 90 degree
+            self.servo_time = self.last_time + timedelta(seconds=wait_time)
+        if (self.brick_container == 5 or 6):
+            distance3 = 0.4
+            time = wait_cal(speed,distance3)
+            wait_time = time - servo_rot_time #Time to get to container - rotation time 90 degree
+            self.servo_time = self.last_time + timedelta(seconds=wait_time)
+        if (self.brick_container == 7 or 8):
+            distance4 = 0.5
+            time = wait_cal(speed,distance4)
+            wait_time = time - servo_rot_time #Time to get to container - rotation time 90 degree
+            self.servo_time = self.last_time + timedelta(seconds=wait_time)
 
 def wait_cal(speed,distance): #Calculate time to wait
     return(distance/speed)     
 
-def calculate(time):
+def cal_conv_speed(time):
     distance = 0,95 #Distance between two sensors on conveyor belt
     return(distance/time)
 
 while True:
     arduino.read()
 
+    #
+    conv_speed = cal_conv_speed()
+    #
+
     if (arduino.data == 48):
         tim = time.localtime()
-        current_time = time.strftime("%H:%M:%S", tim)
+        current_time = datetime.now()
+        #current_time = time.strftime("%H:%M:%S", tim)
         #globals()['strg%s' % counter] = brick.__init__(current_time) #https://www.delftstack.com/howto/python/python-dynamic-variable-name/
         globals()[f"my_variable{counter}"] = brick.__init__(current_time)
         counter += 1
