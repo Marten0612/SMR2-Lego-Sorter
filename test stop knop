@@ -1,0 +1,36 @@
+from tkinter import *
+
+e_stop = False
+
+def scanning():
+    if e_stop:  # Only do this if the Stop button has not been clicked
+        print ("hello")
+
+    # After 1 second, call scanning again (create a recursive loop)
+    root.after(1000, scanning)
+
+def start():
+    """Enable scanning by setting the global flag to True."""
+    global e_stop
+    e_stop = True
+
+def estop():
+    """Stop scanning by setting the global flag to False."""
+    global e_stop
+    e_stop = False 
+
+root = Tk()
+root.title("Title")
+root.geometry("500x500")
+
+app = Frame(root)
+app.grid()
+
+start = Button(app, text="Start Scan", command=start)
+stop = Button(app, text="Stop", command=estop)
+
+start.grid()
+stop.grid()
+
+root.after(1000, scanning)  # After 1 second, call scanning
+root.mainloop()
