@@ -112,3 +112,21 @@ else:
     group = 'rest'
 
 print(group)
+
+
+
+
+
+data = results.pandas().xyxy[0]
+            if len(data) > 1:
+                class_names[i] = 'rest'
+                continue #He will still check all pictures. Change to break to stop immediately.
+            if data.empty:
+                class_names[i] = 'rest'
+            else:
+                confidence = data.iloc[0]['confidence']
+                print("cam sees: {} with confidence {}".format(data.iloc[0]['name'], data.iloc[0]['confidence']))
+                if confidence < conf_tresh:
+                    class_names[i] = 'rest'
+                else:
+                    class_names[i] = data.iloc[0]['name']
