@@ -156,12 +156,16 @@ def start_pause():
         size_Lego = variable_inputsize.get()
         containerList = [None] * 8
         for i in range(total_containers):
-            containerList[i] = globals()[f'variable_container_{i + 1}'].get()
+            var = globals()[f'variable_container_{i + 1}'].get()
+            if var == "None":
+                containerList[i] = var
+            else:
+                containerList[i] = var.lower()
 
         proceed = checks(proceed, containerList, size_Lego)
         if proceed == True:
             print("De machine start met sorteren.")
-            #machine_learning_function(size_Lego, containerList)
+            #start_sorting(size_Lego, containerList)
             print(size_Lego)
             print(containerList)
             opt_inputsize.config(state = 'disabled') #disable inputsize menu
