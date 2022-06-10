@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from this import d
 from turtle import speed
 from matplotlib.pyplot import pink
@@ -6,7 +7,7 @@ import serial
 import time
 import cv2
 import torch
-from datetime import datetime, timedelta
+
 
 counter = 0 #Brick counter
 servo_rot_time = 0.3 #Rotation time 90 degree
