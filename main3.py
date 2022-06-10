@@ -154,8 +154,6 @@ def window_e_stop():
                       font = font_buttons, borderwidth = 10)
     continue_button.place(x=420, y=300) 
 
-
-
 #functions of the buttons of main window
 def start_pause():
     proceed = False
