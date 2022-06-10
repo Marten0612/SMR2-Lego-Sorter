@@ -166,7 +166,6 @@ def start_pause():
         if proceed == True:
             print("De machine start met sorteren.")
             #start_sorting(size_Lego, containerList)
-            #machine_learning_function(size_Lego, containerList)
             print(size_Lego)
             print(containerList)
             opt_inputsize.config(state = 'disabled') #disable inputsize menu
