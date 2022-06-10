@@ -2,7 +2,6 @@ import cv2, Queue, threading, time
 
 # bufferless VideoCapture
 class VideoCapture:
-
   def __init__(self, name):
     self.cap = cv2.VideoCapture(name)
     self.q = Queue.Queue()
