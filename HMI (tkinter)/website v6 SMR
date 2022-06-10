@@ -156,7 +156,11 @@ def start_pause():
         size_Lego = variable_inputsize.get()
         containerList = [None] * 8
         for i in range(total_containers):
-            containerList[i] = globals()[f'variable_container_{i + 1}'].get()
+            var = globals()[f'variable_container_{i + 1}'].get()
+            if var == "None":
+                containerList[i] = var
+            else:
+                containerList[i] = var.lower()
 
         proceed = checks(proceed, containerList, size_Lego)
         if proceed == True:
