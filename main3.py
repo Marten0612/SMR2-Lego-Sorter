@@ -1,6 +1,28 @@
+
+#---------------------------------------------------------------------------------------
+"""Imports"""
 import tkinter as tk 
 from tkinter import *
 from PIL import Image, ImageTk
+from datetime import datetime, timedelta
+from this import d
+from turtle import speed
+from matplotlib.pyplot import pink
+from numpy import take
+import serial 
+import time
+import cv2
+import torch
+
+#---------------------------------------------------------------------------------------
+"""Global variables"""
+counter = 0 #Brick counter
+servo_rot_time = 0.3 #Rotation time 90 degree
+distance_cam = 0.106 #distance from sensor to photo position
+conf_tresh = 0.9 #Confidence treshold
+
+#---------------------------------------------------------------------------------------
+"""HMI"""
 
 #Non button functions:
 def resize_image(file, devider): # Function to resize the window
