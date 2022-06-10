@@ -33,6 +33,55 @@ def resize_image(file, devider): # Function to resize the window
    image2 = ImageTk.PhotoImage(resized)
    return(image2)
 
+def labels():
+    font_sorter = 'Helvetica 30 bold'
+    font_other_labels = 'Helvetica 20'
+    label_welcome = tk.Label(text = "The LEGO sorter", font = font_sorter, fg = 'red', bg = 'white')
+    label_welcome.pack()
+    label_welcome.place(x = 385, y = 105)
+    label_size = tk.Label(text = "1. Please select your input size:", font = font_other_labels, fg = 'black', bg = 'white')
+    label_size.pack()
+    label_size.place(x = 100, y = 160)
+    label_containers = tk.Label(text = "2. Please select which LEGO you want in which container:", font = font_other_labels, fg = 'black', bg = 'white')
+    label_containers.pack()
+    label_containers.place(x = 100, y = 260)
+    Label_start_button = tk.Label(text = "3. Press me to start or pause the machine:", font = font_other_labels, fg = 'black', bg = 'white')
+    Label_start_button.pack()
+    Label_start_button.place(x = 100, y = 600)
+    Label_names = tk.Label(text = "This machine is provided by SMR students: Marten Haaksema | Gijs van Haeff | Jip Rasenberg | Wendy Exterkate", 
+                            font = 'Helvetica 12', fg = 'blue', bg = 'white')
+    Label_names.pack()
+    Label_names.place(x = 130, y = 770)
+
+def placement_optionmenus_containers(): 
+    for i in range(1, total_containers + 1):
+        #location optionmenu is calculated
+        if i / 2 <= 1:
+            loc_x = loc_container_1[0]
+        elif i / 2 <= 2:
+            loc_x = loc_container_1[0] + afstand_x
+        elif i / 2 <= 3:
+            loc_x = loc_container_1[0] + 2 * afstand_x
+        elif i / 2 <= 4:
+            loc_x = loc_container_1[0] + 3 * afstand_x
+        else:
+            print("This has not yet been made.")
+
+        if i % 2 == 0:
+            loc_y = loc_container_1[1] + afstand_y
+        else:
+            loc_y = loc_container_1[1]
+        #optionmenu is placed
+        globals()[f'opt_container_{i}'] = tk.OptionMenu(window, globals()[f'variable_container_{i}'], *OptionList_mainclasses)
+        globals()[f'opt_container_{i}'].config(width = 10, font = font_opt_menu)
+        globals()[f'opt_container_{i}'].pack(side = 'top')
+        globals()[f'opt_container_{i}'].pack()
+        globals()[f'opt_container_{i}'].place(x = loc_x, y = loc_y)
+        #label optionmenu is placed
+        globals()[f'label_container_{i}'] = tk.Label(text = "container " + str(i), font = font_opt_menu, fg = 'red', bg = 'white')
+        globals()[f'label_container_{i}'].pack(side = 'top')
+        globals()[f'label_container_{i}'].place(x = loc_x, y = loc_y - afstand_label)
+
 def checks(proceed, containerList, size_Lego):
     checklist = [x for x in containerList if x != "None"]
     if len(checklist) == 0:
@@ -105,34 +154,7 @@ def window_e_stop():
                       font = font_buttons, borderwidth = 10)
     continue_button.place(x=420, y=300) 
 
-def placement_optionmenus_containers(): 
-    for i in range(1, total_containers + 1):
-        #location optionmenu is calculated
-        if i / 2 <= 1:
-            loc_x = loc_container_1[0]
-        elif i / 2 <= 2:
-            loc_x = loc_container_1[0] + afstand_x
-        elif i / 2 <= 3:
-            loc_x = loc_container_1[0] + 2 * afstand_x
-        elif i / 2 <= 4:
-            loc_x = loc_container_1[0] + 3 * afstand_x
-        else:
-            print("This has not yet been made.")
 
-        if i % 2 == 0:
-            loc_y = loc_container_1[1] + afstand_y
-        else:
-            loc_y = loc_container_1[1]
-        #optionmenu is placed
-        globals()[f'opt_container_{i}'] = tk.OptionMenu(window, globals()[f'variable_container_{i}'], *OptionList_mainclasses)
-        globals()[f'opt_container_{i}'].config(width = 10, font = font_opt_menu)
-        globals()[f'opt_container_{i}'].pack(side = 'top')
-        globals()[f'opt_container_{i}'].pack()
-        globals()[f'opt_container_{i}'].place(x = loc_x, y = loc_y)
-        #label optionmenu is placed
-        globals()[f'label_container_{i}'] = tk.Label(text = "container " + str(i), font = font_opt_menu, fg = 'red', bg = 'white')
-        globals()[f'label_container_{i}'].pack(side = 'top')
-        globals()[f'label_container_{i}'].place(x = loc_x, y = loc_y - afstand_label)
 
 #functions of the buttons of main window
 def start_pause():
@@ -192,25 +214,7 @@ def off():
     print("Machine will be turned off")
 
 #function to make the labels on the main page
-def labels():
-    font_sorter = 'Helvetica 30 bold'
-    font_other_labels = 'Helvetica 20'
-    label_welcome = tk.Label(text = "The LEGO sorter", font = font_sorter, fg = 'red', bg = 'white')
-    label_welcome.pack()
-    label_welcome.place(x = 385, y = 105)
-    label_size = tk.Label(text = "1. Please select your input size:", font = font_other_labels, fg = 'black', bg = 'white')
-    label_size.pack()
-    label_size.place(x = 100, y = 160)
-    label_containers = tk.Label(text = "2. Please select which LEGO you want in which container:", font = font_other_labels, fg = 'black', bg = 'white')
-    label_containers.pack()
-    label_containers.place(x = 100, y = 260)
-    Label_start_button = tk.Label(text = "3. Press me to start or pause the machine:", font = font_other_labels, fg = 'black', bg = 'white')
-    Label_start_button.pack()
-    Label_start_button.place(x = 100, y = 600)
-    Label_names = tk.Label(text = "This machine is provided by SMR students: Marten Haaksema | Gijs van Haeff | Jip Rasenberg | Wendy Exterkate", 
-                            font = 'Helvetica 12', fg = 'blue', bg = 'white')
-    Label_names.pack()
-    Label_names.place(x = 130, y = 770)
+
 
 
 
