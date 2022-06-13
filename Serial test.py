@@ -2,7 +2,6 @@
 import serial
 import time
 import cv2
-import keyboard
 
 print(1)
 '''
@@ -64,9 +63,9 @@ while True:
         number2 = (counter + 1)
         number3 = (counter + 2)
         #cv2.imwrite("Brick%d.jpg" % number1, frame1)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number1, frame1)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number2, frame2)
-        cv2.imwrite(r"C:\Users\Wendy Exterkate\OneDrive\Documenten\TW\jaar4\minor\BSL Bricks\training data\Brick%d.png" % number3, frame3)   
+        cv2.imwrite(r"C:\Users\BSL Bricks\Documents\Lego sorteerder\foto's test\Brick%d.png" % number1, frame1)
+        cv2.imwrite(r"C:\Users\BSL Bricks\Documents\Lego sorteerder\foto's test\Brick%d.png" % number2, frame2)
+        cv2.imwrite(r"C:\Users\BSL Bricks\Documents\Lego sorteerder\foto's test\Brick%d.png" % number3, frame3)
         #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number1, frame1)
         #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number2, frame2)
         #cv2.imwrite(r"C:\Users\jipra\Documents\Training_data\Brick%d.png" % number3, frame3)
