@@ -249,7 +249,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     if (container == 9):
         pass
     time.sleep(t3)
-    arduino.write(container)
+    arduino.write(bytes(container, 'utf-8'))
     
 
 def start_sorting(size_Lego, containerList):
@@ -262,8 +262,7 @@ def start_sorting(size_Lego, containerList):
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
-    #source='local' means that the model used is on this computer.
-    #_verbose=False, zorgt dat het model niet in de terminal wordt laten zien.
+    #source='local' means that thea model niet in de terminal wordt laten zien.
     try:
         while(True):
             data = arduino_read(arduino)
