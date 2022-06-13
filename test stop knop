@@ -32,5 +32,13 @@ stop = Button(app, text="Stop", command=estop)
 start.grid()
 stop.grid()
 
-root.after(1000, scanning)  # After 1 second, call scanning
-root.mainloop()
+
+
+while(True):
+    root.after(1000, scanning)  # After 1 second, call scanning
+    root.mainloop()
+    print("in while")
+    if e_stop == False:
+        break
+
+print("uit while")

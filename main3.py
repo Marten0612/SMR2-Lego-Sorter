@@ -13,6 +13,7 @@ import serial
 import time
 import cv2
 import torch
+import threading
 
 #---------------------------------------------------------------------------------------
 """Global variables"""
@@ -206,8 +207,18 @@ def cal_conv_speed():
 def wait_cal(distance): #Calculate time to wait
     return(distance/conv_speed)     
 
+class SortingDone(Exception): pass
+
 #---------------------------------------------------------------------------------------
 """Start sorting"""
+
+def sorting_steps(cam1,cam2,cam3,model,containerList):
+    frame1,frame2,frame3 = take_photo(cam1,cam2,cam3,model)
+    images = [frame1,frame2,frame3]
+    class_names = detect_brick(images, model)
+    class_part = classify_brick(class_names)
+    group = group_brick(class_part)
+    container = container(group, containerList)
 
 def start_sorting(size_Lego, containerList):
     #Connect
@@ -220,23 +231,19 @@ def start_sorting(size_Lego, containerList):
     #path is the model we use, located in the same file as this code.
     #source='local' means that the model used is on this computer.
     #_verbose=False, zorgt dat het model niet in de terminal wordt laten zien.
+    try:
+        while(True):
+            data = arduino_read(arduino)
 
-    while(True):
-        data = arduino_read(arduino)
-
-
-        if (data == 49):
-            frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
-            images = [frame1,frame2,frame3]
-            class_names = detect_brick(images, model)
-            class_part = classify_brick(class_names)
-            group = group_brick(class_part)
-            container = container(group, containerList)
-
-        if (e_stop == True):
-
-            cam_release()
-        
+            
+            if (data == 49):
+                t = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList))
+                t.start()
+            
+            if (e_stop == True):
+                raise SortingDone
+    except SortingDone:
+        pass
 
 
 #---------------------------------------------------------------------------------------
