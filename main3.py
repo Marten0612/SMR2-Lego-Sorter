@@ -1,6 +1,7 @@
 
 #---------------------------------------------------------------------------------------
 """Imports"""
+from ast import Pass
 import tkinter as tk 
 from tkinter import *
 from PIL import Image, ImageTk
@@ -20,10 +21,15 @@ import threading
 counter = 0 #Brick counter
 servo_rot_time = 0.3 #Rotation time 90 degree
 distance_cam = 0.106 #distance from sensor to photo position
+distance_con_1_2 = 0.4615 
+distance_con_3_4 = 0.6815
+distance_con_5_6 = 0.7015
+distance_con_7_8 = 0.9215
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
 abort = False
 continu = False
+
 
 #These are the groups we will put in our machine
 brick = ['3005_1x1_Brick', '3004_1x2_Brick', '3622_1x3_Brick', '3010_1x4_Brick', \
@@ -212,15 +218,42 @@ class SortingDone(Exception): pass
 #---------------------------------------------------------------------------------------
 """Start sorting"""
 
-def sorting_steps(cam1,cam2,cam3,model,containerList):
+def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
+    start = time.perf_counter()
     frame1,frame2,frame3 = take_photo(cam1,cam2,cam3,model)
     images = [frame1,frame2,frame3]
     class_names = detect_brick(images, model)
     class_part = classify_brick(class_names)
     group = group_brick(class_part)
     container = container(group, containerList)
+    if (container == 1 or container == 2):
+        finish = time.perf_counter()
+        t2 = round(finish-start,2)
+        t_tot = wait_cal(distance_con_1_2)
+        t3 = t_tot - t2
+    if (container == 3 or container == 4):
+        finish = time.perf_counter()
+        t2 = round(finish-start,2)
+        t_tot = wait_cal(distance_con_3_4)
+        t3 = t_tot - t2
+    if (container == 5 or container == 6):
+        finish = time.perf_counter()
+        t2 = round(finish-start,2)
+        t_tot = wait_cal(distance_con_5_6)
+        t3 = t_tot - t2
+    if (container == 7 or container == 8):
+        finish = time.perf_counter()
+        t2 = round(finish-start,2)
+        t_tot = wait_cal(distance_con_7_8)
+        t3 = t_tot - t2
+    if (container == 9):
+        pass
+    time.sleep(t3)
+    arduino.write(container)
+    
 
 def start_sorting(size_Lego, containerList):
+    counter = 0
     #Connect
     cam1, cam2, cam3 = cam_connect()
     arduino = arduino_connect()
@@ -237,10 +270,12 @@ def start_sorting(size_Lego, containerList):
 
             
             if (data == 49):
-                t = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList))
-                t.start()
-            
+                globals()['t%s' % counter] = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList, arduino))
+                globals()['t%s' % counter].start()
+                counter += 1
+
             if (e_stop == True):
+                cam_release()
                 raise SortingDone
     except SortingDone:
         pass
