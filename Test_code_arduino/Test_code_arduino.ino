@@ -1,5 +1,5 @@
 #define LEDPIN 13
-#define SENSORPIN 53
+#define SENSORPIN 7
 
 // variables will change:
 int x;

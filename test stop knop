@@ -35,8 +35,6 @@ stop.grid()
 
 
 while(True):
-    root.after(1000, scanning)  # After 1 second, call scanning
-    root.mainloop()
     print("in while")
     if e_stop == False:
         break
