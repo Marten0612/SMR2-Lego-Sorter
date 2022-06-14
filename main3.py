@@ -93,7 +93,7 @@ def cam_connect(): #Connect camera's
     return cam1, cam2, cam3
 
 def arduino_connect(): #Connect arduino/ serial communication
-    arduino = serial.Serial(port='COM3', baudrate=115200, timeout=.1)
+    arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
     return arduino
 
 def arduino_read(arduino): #Character 1,2,3 -> 49,50,51/ sensor visionbox, sensor after visionbox, 
@@ -258,7 +258,7 @@ def start_sorting(size_Lego, containerList):
     cam1, cam2, cam3 = cam_connect()
     arduino = arduino_connect()
     # Model
-    model = torch.hub.load('../yolov5', 'custom', path="lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
+    model = torch.hub.load('C:\\Users\\BSL" "Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\yolov5', 'custom', path="C:\\Users\\BSL" "Bricks\\Documents\\GitHub\\SMR2-Lego-Sorterlego_model_8_juni.pt", source='local', _verbose=False)  # local repo
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
@@ -475,7 +475,7 @@ def off():
     print("Machine will be turned off")
 
 def calibrate():
-    pass
+    cal_conv_speed()
 
 #Open main window
 window = tk.Tk()
@@ -486,7 +486,7 @@ window.configure(background = 'white')
 
 #Logo BSL BRICKS canvas
 #file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
-file_logo_BSL = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter-\\HMI (tkinter)\\red-lego-background.jpg"
+file_logo_BSL = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
 canvas_logo_BSL = Canvas(window, width = 1600, height = 100, highlightthickness = 0)
 img_BSL = ImageTk.PhotoImage(Image.open(file_logo_BSL))
 canvas_logo_BSL.pack()
