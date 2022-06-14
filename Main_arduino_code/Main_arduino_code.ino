@@ -21,7 +21,7 @@ Servo servo7;  // create servo object to control servo 7
 Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
-static int serv_t = 1500;
+static int serv_t = 2000;
 
 // Variables will change:
 int x;
@@ -153,6 +153,8 @@ void loop() {
     servo8.write(95);
   }
 
+  
+
   // read the state of the IR sensors value:
   sState_feeder = digitalRead(IRgate_feeder);
   sState_vision = digitalRead(IRgate_vision);
@@ -162,6 +164,11 @@ void loop() {
   // Check if the sensor beams are broken
   // if it is, the sensorState is LOW:
 
+  
+  //motor_on();
+
+  //IR sensor feeder}
+  /*
   //IR sensor feeder
   if (!sState_feeder && lastState_feeder) {//Broken
     motor_off();
@@ -181,7 +188,7 @@ void loop() {
   //IR sensor conveyor belt 2
   if (!sState_conv_2 && lastState_conv_2) {//Broken
     Serial.print(3);
-  }
+  }*/
 
   lastState_feeder = sState_feeder;
   lastState_vision = sState_vision;
