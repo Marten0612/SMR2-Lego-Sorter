@@ -221,11 +221,16 @@ class SortingDone(Exception): pass
 
 def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     start = time.perf_counter()
+    print(start)
     frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
+    print("fotos zijn gemaakt")
     images = [frame1,frame2,frame3]
     class_names = detect_brick(images, model)
+    print("3 classes")
     class_part = classify_brick(class_names)
+    print(class_part)
     group = group_brick(class_part)
+    print(group)
     container_num = container(group, containerList)
     if (container_num == 1 or container_num == 2):
         finish = time.perf_counter()
