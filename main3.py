@@ -213,6 +213,7 @@ def cal_conv_speed():
     arduino = arduino_connect()
     distance = 0.95 #Distance between two sensors on conveyor belt
     data = arduino_read(arduino)
+    print("arduino connected")
     sensor1_trigger = None
     sensor2_trigger = None
     while(True):
