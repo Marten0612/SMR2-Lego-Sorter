@@ -3,9 +3,9 @@
 
 //Define pins
 #define LEDPIN 13
-#define IRgate_feeder 50
-#define IRgate_vision 51
-#define IRgate_conv_1 52
+#define IRgate_feeder 47
+#define IRgate_vision 49
+#define IRgate_conv_1 51
 #define IRgate_conv_2 53
 #define feeder_l 9
 #define feeder_h 10
@@ -22,7 +22,7 @@ Servo servo7;  // create servo object to control servo 7
 Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
-static serv_t = 1000;
+static int serv_t = 1000;
 
 // Variables will change:
 int x;
@@ -31,25 +31,26 @@ int sState_vision = 0, lastState_vision = 0;         // variable for reading the
 int sState_conv_1 = 0, lastState_conv_1 = 0;         // variable for reading the IR sensor status
 int sState_conv_2 = 0, lastState_conv_2 = 0;         // variable for reading the IR sensor status
 
-unsigned long lastMilis1;
-unsigned long lastMilis2;
-unsigned long lastMilis3;
-unsigned long lastMilis4;
-unsigned long lastMilis5;
-unsigned long lastMilis6;
-unsigned long lastMilis7;
-unsigned long lastMilis8;
+unsigned long lastMillis1;
+unsigned long lastMillis2;
+unsigned long lastMillis3;
+unsigned long lastMillis4;
+unsigned long lastMillis5;
+unsigned long lastMillis6;
+unsigned long lastMillis7;
+unsigned long lastMillis8;
 
 void setup() {
   // Initialize output pins:
   pinMode(LEDPIN, OUTPUT);      
-  myservo.attach(2);  // attaches the servo on pin 2 to the servo object
-  myservo.attach(3);  // attaches the servo on pin 3 to the servo object
-  myservo.attach(4);  // attaches the servo on pin 4 to the servo object
-  myservo.attach(5);  // attaches the servo on pin 5 to the servo object
-  myservo.attach(6);  // attaches the servo on pin 6 to the servo object
-  myservo.attach(7);  // attaches the servo on pin 7 to the servo object
-  myservo.attach(8);  // attaches the servo on pin 8 to the servo object
+  servo1.attach(4);  // attaches the servo on pin 2 to the servo object
+  servo2.attach(8);  // attaches the servo on pin 2 to the servo object
+  servo3.attach(5);  // attaches the servo on pin 3 to the servo object
+  servo4.attach(9);  // attaches the servo on pin 4 to the servo object
+  servo5.attach(6);  // attaches the servo on pin 5 to the servo object
+  servo6.attach(10);  // attaches the servo on pin 6 to the servo object
+  servo7.attach(7);  // attaches the servo on pin 7 to the servo object
+  servo8.attach(11);  // attaches the servo on pin 8 to the servo object
 
   // initialize input pins:
   pinMode(IRgate_feeder, INPUT); //Set sensor pin as input
@@ -72,15 +73,15 @@ void setup() {
 }
 
 void motor_on(){
-  analogWrite(feeder_l, HIGH)
-  analogWrite(feeder_h, HIGH)
-  analogWrite(hopper, HIGH)
+  analogWrite(feeder_l, HIGH);
+  analogWrite(feeder_h, HIGH);
+  analogWrite(hopper, HIGH);
 }
 
 void motor_off(){
-  analogWrite(feeder_l, LOW)
-  analogWrite(feeder_h, LOW)
-  analogWrite(hopper, LOW)
+  analogWrite(feeder_l, LOW);
+  analogWrite(feeder_h, LOW);
+  analogWrite(hopper, LOW);
 }
 
 void loop(){
@@ -147,28 +148,29 @@ void loop(){
   // if it is, the sensorState is LOW:
 
   //IR sensor feeder
-  }if (!sState_feeder && lastState_feeder) {//Broken
-    motor_off()
+  if (!sState_feeder && lastState_feeder) {//Broken
+    motor_off();
   }
 
   //IR sensor vision box
-  }if (!sState_vision && lastState_vision) {//Broken
+  if (!sState_vision && lastState_vision) {//Broken
     Serial.print(1); 
-    motor_on()
+    digitalWrite(LEDPIN, HIGH);
+    motor_on();
   }
 
   //IR sensor conveyor belt 1
-  }if (!sState_conv_1 && lastState_conv_1) {//Broken
+  if (!sState_conv_1 && lastState_conv_1) {//Broken
     Serial.print(2); 
   }
 
   //IR sensor conveyor belt 2
-  }if (!sState_conv_2 && lastState_conv_2) {//Broken
+  if (!sState_conv_2 && lastState_conv_2) {//Broken
     Serial.print(3); 
   }
 
-  lastState_feeder = sState_feeder
-  lastState_vision = sState_vision
-  lastState_conv_1 = sState_conv_1
-  lastState_conv_2 = sState_conv_2  
+  lastState_feeder = sState_feeder;
+  lastState_vision = sState_vision;
+  lastState_conv_1 = sState_conv_1;
+  lastState_conv_2 = sState_conv_2;  
 }

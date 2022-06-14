@@ -21,16 +21,12 @@ void loop(){
   //  while (!Serial.available());
   // check if the sensor beam is broken
   // if it is, the sensorState is LOW:
-  if (sensorState == LOW) {  //Sluis onderbroken   
-    // turn LED on:
-    digitalWrite(LEDPIN, HIGH); 
-  } 
-  else {
-    // turn LED off:
-    digitalWrite(LEDPIN, LOW);
-  }
+
   if (!sensorState && lastState) {//Broken
     Serial.print(1); 
   }
+
+
+  
   lastState = sensorState;
 }
