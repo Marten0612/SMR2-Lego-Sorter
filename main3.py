@@ -25,7 +25,6 @@ distance_con_1_2 = 0.4615
 distance_con_3_4 = 0.6815
 distance_con_5_6 = 0.7015
 distance_con_7_8 = 0.9215
-conv_speed = 0.01 #WEG HALEN UITEINDELIJK!!!!!!!!!!!!!!
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
 abort = False
@@ -94,7 +93,7 @@ def cam_connect(): #Connect camera's
     return cam1, cam2, cam3
 
 def arduino_connect(): #Connect arduino/ serial communication
-    arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+    arduino = serial.Serial(port='COM3', baudrate=115200, timeout=.1)
     return arduino
 
 def arduino_read(arduino): #Character 1,2,3 -> 49,50,51/ sensor visionbox, sensor after visionbox, 
@@ -194,7 +193,6 @@ def container(group, containerList):
 
 def cal_conv_speed():
     arduino = arduino_connect()
-    print("arduino connect")
     distance = 0.95 #Distance between two sensors on conveyor belt
     data = arduino_read(arduino)
     sensor1_trigger = None
@@ -203,13 +201,11 @@ def cal_conv_speed():
         if (data == 50):
             start_time = time.time()
             sensor1_trigger = 1
-            print("cal sensor 1")
         if (data == 51):
             end_time = time.time()
             sensor2_trigger = 1
         if (sensor1_trigger == 1 and sensor2_trigger == 1):
             time_lapsed = end_time - start_time  
-            print("cal sensor 2")
             break 
     global conv_speed
     conv_speed = distance/time_lapsed
@@ -223,51 +219,46 @@ class SortingDone(Exception): pass
 """Start sorting"""
 
 def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
-    print("Thread aangemaakt")
     start = time.perf_counter()
-    frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
+    frame1,frame2,frame3 = take_photo(cam1,cam2,cam3,model)
     images = [frame1,frame2,frame3]
     class_names = detect_brick(images, model)
     class_part = classify_brick(class_names)
     group = group_brick(class_part)
-    container_num = container(group, containerList)
-    print("Container")
-    if (container_num == 1 or container_num == 2):
+    container = container(group, containerList)
+    if (container == 1 or container == 2):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
-    if (container_num == 3 or container_num == 4):
+    if (container == 3 or container == 4):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_3_4)
         t3 = t_tot - t2
-    if (container_num == 5 or container_num == 6):
+    if (container == 5 or container == 6):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_5_6)
         t3 = t_tot - t2
-    if (container_num == 7 or container_num == 8):
+    if (container == 7 or container == 8):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_7_8)
         t3 = t_tot - t2
-    if (container_num == 9):
+    if (container == 9):
         pass
     time.sleep(t3)
-    arduino.write(bytes(container_num, 'utf-8'))
+    arduino.write(bytes(container, 'utf-8'))
     
 
 def start_sorting(size_Lego, containerList):
-    print("Start sorting")
     counter = 0
     #Connect
     cam1, cam2, cam3 = cam_connect()
-    print("connected")
     arduino = arduino_connect()
-    print("Arduino connected")
     # Model
-    model = torch.hub.load('C:\\Users\\jipra\\Documents\\GitHub\\SMR2-Lego-Sorter\\yolov5', 'custom', path="C:\\Users\\jipra\\Documents\\GitHub\\SMR2-Lego-Sorter\\machine learning\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
+    model = torch.hub.load('../yolov5', 'custom', path="lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
@@ -275,10 +266,8 @@ def start_sorting(size_Lego, containerList):
     try:
         while(True):
             data = arduino_read(arduino)
-            if (data != 0):
-                print(data)
+            
             if (data == 49):
-                print("In vision box")
                 globals()['t%s' % counter] = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList, arduino))
                 globals()['t%s' % counter].start()
                 counter += 1
@@ -487,9 +476,7 @@ def off():
     print("Machine will be turned off")
 
 def calibrate():
-    print("cal knop")
-    cal_conv_speed()
-    print(conv_speed)
+    pass
 
 #Open main window
 window = tk.Tk()
@@ -500,7 +487,7 @@ window.configure(background = 'white')
 
 #Logo BSL BRICKS canvas
 #file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
-file_logo_BSL = "C:\\Users\\jipra\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+file_logo_BSL = "red-lego-background.jpg"
 canvas_logo_BSL = Canvas(window, width = 1600, height = 100, highlightthickness = 0)
 img_BSL = ImageTk.PhotoImage(Image.open(file_logo_BSL))
 canvas_logo_BSL.pack()
@@ -522,7 +509,7 @@ text_statusbar = canvas_statusbar.create_text(200, 75, text = "Machine is idle",
 
 #Logo SMR canvas
 #file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
-file_logo_SMR = "C:\\Users\\jipra\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
+file_logo_SMR = "SMR logo wide.png"
 
 canvas_logo_SMR = Canvas(window, width=500, height=100, highlightthickness = 0)
 canvas_logo_SMR.pack(fill=BOTH, expand=True)
