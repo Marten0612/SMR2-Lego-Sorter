@@ -21,10 +21,11 @@ import threading
 counter = 0 #Brick counter
 servo_rot_time = 0.3 #Rotation time 90 degree
 distance_cam = 0.106 #distance from sensor to photo position
-distance_con_1_2 = 0.4615 
-distance_con_3_4 = 0.6815
-distance_con_5_6 = 0.7015
-distance_con_7_8 = 0.9215
+distance_con_1_2 = 0.37 + 0*0.22
+distance_con_3_4 = 0.37 + 1*0.22
+distance_con_5_6 = 0.37 + 2*0.22
+distance_con_7_8 = 0.37 + 3*0.22
+conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
 
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
@@ -261,6 +262,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
         print(t3)
+        print(t_tot)
         time.sleep(t3)
         string = str(container_num)
         arduino.write(bytes(string, 'utf-8'))
@@ -271,6 +273,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t_tot = wait_cal(distance_con_3_4)
         t3 = t_tot - t2
         print(t3)
+        print(t_tot)
         time.sleep(t3)
         string = str(container_num)
         arduino.write(bytes(string, 'utf-8'))
@@ -281,6 +284,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t_tot = wait_cal(distance_con_5_6)
         t3 = t_tot - t2
         print(t3)
+        print(t_tot)
         time.sleep(t3)
         string = str(container_num)
         arduino.write(bytes(string, 'utf-8'))
@@ -291,6 +295,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t_tot = wait_cal(distance_con_7_8)
         t3 = t_tot - t2
         print(t3)
+        print(t_tot)
         time.sleep(t3)
         string = str(container_num)
         arduino.write(bytes(string, 'utf-8'))
