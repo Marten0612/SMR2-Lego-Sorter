@@ -2,7 +2,6 @@
 #include <Servo.h>
 
 //Define pins
-#define LEDPIN 13
 #define IRgate_feeder 47
 #define IRgate_vision 49
 #define IRgate_conv_1 51
@@ -41,17 +40,6 @@ unsigned long lastMillis7;
 unsigned long lastMillis8;
 
 void setup() {
-  // Initialize output pins:
-  pinMode(LEDPIN, OUTPUT);      
-  servo1.attach(4);  // attaches the servo on pin 2 to the servo object
-  servo2.attach(8);  // attaches the servo on pin 2 to the servo object
-  servo3.attach(5);  // attaches the servo on pin 3 to the servo object
-  servo4.attach(9);  // attaches the servo on pin 4 to the servo object
-  servo5.attach(6);  // attaches the servo on pin 5 to the servo object
-  servo6.attach(10);  // attaches the servo on pin 6 to the servo object
-  servo7.attach(7);  // attaches the servo on pin 7 to the servo object
-  servo8.attach(11);  // attaches the servo on pin 8 to the servo object
-
   // initialize input pins:
   pinMode(IRgate_feeder, INPUT); //Set sensor pin as input
   pinMode(IRgate_vision, INPUT); //Set sensor pin as input
@@ -63,6 +51,18 @@ void setup() {
   digitalWrite(IRgate_vision, HIGH); // turn on the pullup
   digitalWrite(IRgate_conv_1, HIGH); // turn on the pullup
   digitalWrite(IRgate_conv_2, HIGH); // turn on the pullup
+  
+  // Initialize output pins:   
+  servo1.attach(4);  // attaches the servo on pin 2 to the servo object
+  servo2.attach(8);  // attaches the servo on pin 2 to the servo object
+  servo3.attach(5);  // attaches the servo on pin 3 to the servo object
+  servo4.attach(9);  // attaches the servo on pin 4 to the servo object
+  servo5.attach(6);  // attaches the servo on pin 5 to the servo object
+  servo6.attach(10);  // attaches the servo on pin 6 to the servo object
+  servo7.attach(7);  // attaches the servo on pin 7 to the servo object
+  servo8.attach(11);  // attaches the servo on pin 8 to the servo object
+
+
 
   // turn all servo's to the 0 position
   servo2.write(90);
@@ -93,7 +93,6 @@ void motor_off(){
 }
 
 void loop(){
-  while (!Serial.available()); //Remove if it's not working
   x = Serial.readString().toInt(); //Read serial communciation
 
   //Activate servos when serial cumminication receives variable
@@ -163,7 +162,6 @@ void loop(){
   //IR sensor vision box
   if (!sState_vision && lastState_vision) {//Broken
     Serial.print(1); 
-    digitalWrite(LEDPIN, HIGH);
     motor_on();
   }
 
