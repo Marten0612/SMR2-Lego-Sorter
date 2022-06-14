@@ -266,7 +266,6 @@ def start_sorting(size_Lego, containerList):
     try:
         while(True):
             data = arduino_read(arduino)
-
             
             if (data == 49):
                 globals()['t%s' % counter] = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList, arduino))
