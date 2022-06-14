@@ -63,25 +63,33 @@ void setup() {
   digitalWrite(IRgate_vision, HIGH); // turn on the pullup
   digitalWrite(IRgate_conv_1, HIGH); // turn on the pullup
   digitalWrite(IRgate_conv_2, HIGH); // turn on the pullup
-  digitalWrite(feeder_l, HIGH);      // turn on the pullup
-  digitalWrite(feeder_h, HIGH);      // turn on the pullup
-  digitalWrite(hopper, HIGH);        // turn on the pullup
 
+  // turn all servo's to the 0 position
+  servo2.write(90);
+  servo4.write(85);
+  servo6.write(105);
+  servo8.write(95);
+
+  servo1.write(30);
+  servo3.write(20);  
+  servo5.write(35);
+  servo7.write(40);
+  
   Serial.begin(115200);
   Serial.setTimeout(1);
 
 }
 
 void motor_on(){
-  analogWrite(feeder_l, HIGH);
-  analogWrite(feeder_h, HIGH);
-  analogWrite(hopper, HIGH);
+  analogWrite(feeder_l, 180);
+  analogWrite(feeder_h, 200);
+  analogWrite(hopper, 225);
 }
 
 void motor_off(){
-  analogWrite(feeder_l, LOW);
-  analogWrite(feeder_h, LOW);
-  analogWrite(hopper, LOW);
+  analogWrite(feeder_l, 0);
+  analogWrite(feeder_h, 0);
+  analogWrite(hopper, 0);
 }
 
 void loop(){
@@ -90,10 +98,10 @@ void loop(){
 
   //Activate servos when serial cumminication receives variable
   if (x == 1){
-    servo1.write(0);
+    servo1.write(120);
     lastMillis1 = millis();
   }if(millis() - lastMillis1 <= serv_t){
-    servo1.write(90);
+    servo1.write(30);
   }
   if (x == 2){
     servo2.write(0);
@@ -102,40 +110,40 @@ void loop(){
     servo2.write(90);
   }
   if (x == 3){
-    servo3.write(0);
+    servo3.write(120);
     lastMillis3 = millis();
   }if(millis() - lastMillis3 <= serv_t){
-    servo3.write(90);
+    servo3.write(20);
   }
   if (x == 4){
     servo4.write(0);
     lastMillis4 = millis();
   }if(millis() - lastMillis4 <= serv_t){
-    servo4.write(90);
+    servo4.write(85);
   }
   if (x == 5){
-    servo5.write(0);
+    servo5.write(130);
     lastMillis5 = millis();
   }if(millis() - lastMillis5 <= serv_t){
-    servo5.write(90);
+    servo5.write(35);
   }
   if (x == 6){
-    servo6.write(0);
+    servo6.write(10);
     lastMillis6 = millis();
   }if(millis() - lastMillis6 <= serv_t){
-    servo6.write(90);
+    servo6.write(105);
   }
   if (x == 7){
-    servo7.write(0);  
+    servo7.write(130);  
     lastMillis7 = millis();
   }if(millis() - lastMillis7 <= serv_t){
-    servo7.write(90);
+    servo7.write(40);
   }
   if (x == 8){
     servo8.write(0); 
     lastMillis8 = millis();
   }if(millis() - lastMillis8 <= serv_t){
-    servo8.write(90);
+    servo8.write(95);
   }
   
   // read the state of the IR sensors value:
