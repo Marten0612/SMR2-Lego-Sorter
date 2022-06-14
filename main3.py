@@ -217,15 +217,18 @@ def cal_conv_speed():
     sensor2_trigger = None
     while(True):
         if (data == 50):
+            print("trigger 1")
             start_time = time.time()
             sensor1_trigger = 1
         if (data == 51):
+            print("trigger 2")
             end_time = time.time()
             sensor2_trigger = 1
         if (sensor1_trigger == 1 and sensor2_trigger == 1):
             time_lapsed = end_time - start_time  
             break 
     global conv_speed
+    print(conv_speed)
     conv_speed = distance/time_lapsed
 
 def wait_cal(distance): #Calculate time to wait
@@ -258,8 +261,9 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t3 = t_tot - t2
         print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
-        print(container_num)
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 3 or container_num == 4):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
@@ -267,8 +271,9 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t3 = t_tot - t2
         print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
-        print(container_num)
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 5 or container_num == 6):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
@@ -276,8 +281,9 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t3 = t_tot - t2
         print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
-        print(container_num)
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 7 or container_num == 8):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
@@ -285,8 +291,9 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t3 = t_tot - t2
         print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
-        print(container_num)
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
 
 def start_sorting(size_Lego, containerList):
     counter = 0
@@ -514,7 +521,9 @@ def off():
     print("Machine will be turned off")
 
 def calibrate():
+    print("start calibrate")
     cal_conv_speed()
+    
 
 #Open main window
 window = tk.Tk()
