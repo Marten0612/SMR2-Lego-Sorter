@@ -21,7 +21,7 @@ Servo servo7;  // create servo object to control servo 7
 Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
-static int serv_t = 1000;
+static int serv_t = 1500;
 
 // Variables will change:
 int x;

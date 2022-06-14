@@ -25,7 +25,7 @@ distance_con_1_2 = 0.4615
 distance_con_3_4 = 0.6815
 distance_con_5_6 = 0.7015
 distance_con_7_8 = 0.9215
-conv_speed = 0.05#haaal weg zo!!!!!!!!!!!!!!!!
+
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
 abort = False
@@ -212,11 +212,11 @@ def container(group, containerList):
 def cal_conv_speed():
     arduino = arduino_connect()
     distance = 0.95 #Distance between two sensors on conveyor belt
-    data = arduino_read(arduino)
     print("arduino connected")
     sensor1_trigger = None
     sensor2_trigger = None
     while(True):
+        data = arduino_read(arduino)
         if (data == 50):
             print("trigger 1")
             start_time = time.time()
@@ -229,8 +229,8 @@ def cal_conv_speed():
             time_lapsed = end_time - start_time  
             break 
     global conv_speed
-    print(conv_speed)
     conv_speed = distance/time_lapsed
+    print(conv_speed)
 
 def wait_cal(distance): #Calculate time to wait
     return(distance/conv_speed)     
