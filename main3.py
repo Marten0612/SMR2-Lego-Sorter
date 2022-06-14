@@ -475,7 +475,8 @@ def empty():
 def off():
     print("Machine will be turned off")
 
-
+def calibrate():
+    pass
 
 #Open main window
 window = tk.Tk()
@@ -533,6 +534,9 @@ empty_button.place(x=1210, y=320)
 turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 8, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 turn_off__button.place(x=1210, y=470) 
+calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 8, bg = 'blue', fg = 'white', 
+                      font = font_buttons, borderwidth = 10)
+calibrate__button.place(x=910, y=270) 
 
 #Variables
 total_containers = 8
