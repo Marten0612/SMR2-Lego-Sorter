@@ -485,7 +485,8 @@ window.resizable(True, True)
 window.configure(background = 'white')
 
 #Logo BSL BRICKS canvas
-file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+#file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+file_logo_BSL = "red-lego-background.jpg"
 canvas_logo_BSL = Canvas(window, width = 1600, height = 100, highlightthickness = 0)
 img_BSL = ImageTk.PhotoImage(Image.open(file_logo_BSL))
 canvas_logo_BSL.pack()
@@ -506,7 +507,9 @@ canvas_statusbar.place(x = 1100, y = 650)
 text_statusbar = canvas_statusbar.create_text(200, 75, text = "Machine is idle", font = ('Helvetica 20 bold'), fill = 'black')
 
 #Logo SMR canvas
-file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
+#file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
+file_logo_SMR = "SMR logo wide.png"
+
 canvas_logo_SMR = Canvas(window, width=500, height=100, highlightthickness = 0)
 canvas_logo_SMR.pack(fill=BOTH, expand=True)
 canvas_logo_SMR.place(x = 1106, y = 0)
