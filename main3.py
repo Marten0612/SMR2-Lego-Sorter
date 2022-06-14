@@ -186,11 +186,28 @@ def group_brick(class_part):
     return group
 
 def container(group, containerList):
-    for i in range(len(containerList)):
-        if containerList[i] == group:
-            return i + 1
-        else:
-            return 9
+
+    if containerList[0] == group:
+        container = 1
+    elif containerList[1] == group:
+        container = 2
+    elif containerList[2] == group:
+        container = 3
+    elif containerList[3] == group:
+        container = 4
+    elif containerList[4] == group:
+        container = 5
+    elif containerList[5] == group:
+        container = 6
+    elif containerList[6] == group:
+        container = 7
+    elif containerList[7] == group:
+        container = 8
+    else:
+        container = 9
+
+    return container
+
 
 def cal_conv_speed():
     arduino = arduino_connect()
@@ -200,15 +217,18 @@ def cal_conv_speed():
     sensor2_trigger = None
     while(True):
         if (data == 50):
+            print("trigger 1")
             start_time = time.time()
             sensor1_trigger = 1
         if (data == 51):
+            print("trigger 2")
             end_time = time.time()
             sensor2_trigger = 1
         if (sensor1_trigger == 1 and sensor2_trigger == 1):
             time_lapsed = end_time - start_time  
             break 
     global conv_speed
+    print(conv_speed)
     conv_speed = distance/time_lapsed
 
 def wait_cal(distance): #Calculate time to wait
@@ -232,34 +252,48 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     group = group_brick(class_part)
     print(group)
     container_num = container(group, containerList)
+    print("container number")
+    print(container_num)
     if (container_num == 1 or container_num == 2):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
+        print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 3 or container_num == 4):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_3_4)
         t3 = t_tot - t2
+        print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 5 or container_num == 6):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_5_6)
         t3 = t_tot - t2
+        print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
     elif (container_num == 7 or container_num == 8):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_7_8)
         t3 = t_tot - t2
+        print(t3)
         time.sleep(t3)
-        arduino.write(bytes(container_num, 'utf-8'))
+        string = str(container_num)
+        arduino.write(bytes(string, 'utf-8'))
+        print("servo signal send")
 
 def start_sorting(size_Lego, containerList):
     counter = 0
@@ -487,7 +521,9 @@ def off():
     print("Machine will be turned off")
 
 def calibrate():
+    print("start calibrate")
     cal_conv_speed()
+    
 
 #Open main window
 window = tk.Tk()
