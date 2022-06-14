@@ -293,24 +293,24 @@ def resize_image(file, devider): # Function to resize the window
 
 #function to make the labels on the main page
 def labels():
-    font_sorter = 'Helvetica 30 bold'
-    font_other_labels = 'Helvetica 20'
+    font_sorter = 'Helvetica 25 bold'
+    font_other_labels = 'Helvetica 18'
     label_welcome = tk.Label(text = "The LEGO sorter", font = font_sorter, fg = 'red', bg = 'white')
     label_welcome.pack()
-    label_welcome.place(x = 385, y = 105)
+    label_welcome.place(x = 310, y = 100)
     label_size = tk.Label(text = "1. Please select your input size:", font = font_other_labels, fg = 'black', bg = 'white')
     label_size.pack()
-    label_size.place(x = 100, y = 160)
+    label_size.place(x = 60, y = 140)
     label_containers = tk.Label(text = "2. Please select which LEGO you want in which container:", font = font_other_labels, fg = 'black', bg = 'white')
     label_containers.pack()
-    label_containers.place(x = 100, y = 260)
+    label_containers.place(x = 60, y = 240)
     Label_start_button = tk.Label(text = "3. Press me to start or pause the machine:", font = font_other_labels, fg = 'black', bg = 'white')
     Label_start_button.pack()
-    Label_start_button.place(x = 100, y = 600)
+    Label_start_button.place(x = 60, y = 460)
     Label_names = tk.Label(text = "This machine is provided by SMR students: Marten Haaksema | Gijs van Haeff | Jip Rasenberg | Wendy Exterkate", 
                             font = 'Helvetica 12', fg = 'blue', bg = 'white')
     Label_names.pack()
-    Label_names.place(x = 130, y = 770)
+    Label_names.place(x = 45, y = 620)
 
 def placement_optionmenus_containers(): 
     for i in range(1, total_containers + 1):
@@ -393,7 +393,6 @@ def window_e_stop():
         abort = True
         e_stop_window.destroy()
         window.destroy()
-
 
     def continu():
         continu = True
@@ -481,39 +480,39 @@ def calibrate():
 #Open main window
 window = tk.Tk()
 window.title("BSL Bricks")
-window.geometry('1600x800')
+window.geometry('1280x650')
 window.resizable(True, True)
 window.configure(background = 'white')
 
 #Logo BSL BRICKS canvas
 #file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
-file_logo_BSL = "red-lego-background.jpg"
+file_logo_BSL = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter-\\HMI (tkinter)\\red-lego-background.jpg"
 canvas_logo_BSL = Canvas(window, width = 1600, height = 100, highlightthickness = 0)
 img_BSL = ImageTk.PhotoImage(Image.open(file_logo_BSL))
 canvas_logo_BSL.pack()
 canvas_logo_BSL.create_image(0, 0, image = img_BSL)
 canvas_logo_BSL.create_image(900, 0, image = img_BSL)
 canvas_logo_BSL.create_image(1800, 0, image = img_BSL)
-canvas_logo_BSL.create_text(550, 50, text = "BSL BRICKS", font = ('Helvetica 40 bold'), fill = 'white')
+canvas_logo_BSL.create_text(450, 50, text = "BSL BRICKS", font = ('Helvetica 40 bold'), fill = 'white')
 
 #Extra buttons canvas
 canvas_buttons = Canvas(window, width = 1000, height = 1000, bg = '#e9f1f8', highlightthickness = 6, highlightbackground = 'black')
 canvas_buttons.pack()
-canvas_buttons.place(x = 1100, y = 0)
+canvas_buttons.place(x = 860, y = 0)
 
 #Statusbar canvas
 canvas_statusbar = Canvas(window, width = 1000, height = 1000, bg = '#e9f1f8', highlightthickness = 6, highlightbackground = 'black')
 canvas_statusbar.pack()
-canvas_statusbar.place(x = 1100, y = 650)
-text_statusbar = canvas_statusbar.create_text(200, 75, text = "Machine is idle", font = ('Helvetica 20 bold'), fill = 'black')
+canvas_statusbar.place(x = 860, y = 550)
+text_statusbar = canvas_statusbar.create_text(200, 55, text = "Machine is idle", font = ('Helvetica 20 bold'), fill = 'black')
 
 #Logo SMR canvas
 #file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
-file_logo_SMR = "SMR logo wide.png"
+file_logo_SMR = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
 
 canvas_logo_SMR = Canvas(window, width=500, height=100, highlightthickness = 0)
 canvas_logo_SMR.pack(fill=BOTH, expand=True)
-canvas_logo_SMR.place(x = 1106, y = 0)
+canvas_logo_SMR.place(x = 866, y = 0)
 logo_SMR = resize_image(file_logo_SMR, 1.7)
 canvas_logo_SMR.create_image(0, 0, image=logo_SMR, anchor='nw')
 
@@ -521,22 +520,22 @@ canvas_logo_SMR.create_image(0, 0, image=logo_SMR, anchor='nw')
 labels()
 
 #Buttons main window
-font_buttons = 'Helvetica 28 bold'
-start_pause_button = Button(window, text = "Start sorting", command = start_pause, height = 1, width = 40, bg = 'green', fg = 'white', 
+font_buttons = 'Helvetica 24 bold'
+start_pause_button = Button(window, text = "Start sorting", command = start_pause, height = 1, width = 30, bg = 'green', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-start_pause_button.place(x=100, y=650) 
+start_pause_button.place(x=100, y=510) 
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-e_stop_button.place(x=1185, y=140) 
-empty_button = Button(window, text = "Empty\nsystem", command = empty, height = 2, width = 8, bg = 'blue', fg = 'white', 
+e_stop_button.place(x=970, y=125) 
+empty_button = Button(window, text = "Empty\nsystem", command = empty, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-empty_button.place(x=1210, y=320)           
-turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 8, bg = 'blue', fg = 'white', 
+empty_button.place(x=998, y=265)           
+turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-turn_off__button.place(x=1210, y=470) 
-calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 8, bg = 'blue', fg = 'white', 
+turn_off__button.place(x=998, y=405) 
+calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-calibrate__button.place(x=910, y=270) 
+calibrate__button.place(x=778, y=270) 
 
 #Variables
 total_containers = 8
@@ -545,9 +544,9 @@ variable_inputsize.set("Size") #default value
 for i in range(total_containers):
     globals()[f"variable_container_{i + 1}"] = StringVar(window)
     globals()[f"variable_container_{i + 1}"].set("None")
-loc_container_1 = (100, 330) #location of the first container optionmenu
-afstand_x = 200 #horizontal distance between top left of the optionmenu's
-afstand_y = 200 #vertical distance between top left of the optionmenu's
+loc_container_1 = (100, 310) #location of the first container optionmenu
+afstand_x = 190 #horizontal distance between top left of the optionmenu's
+afstand_y = 90 #vertical distance between top left of the optionmenu's
 afstand_label = 30 #distance between top left of the label and the optionmenu
 
 #Optionmenus 
@@ -559,7 +558,7 @@ opt_inputsize = tk.OptionMenu(window, variable_inputsize, *OptionList_inputsize)
 opt_inputsize.config(width = 10, font = font_opt_menu)
 opt_inputsize.pack(side = 'top')
 opt_inputsize.pack()
-opt_inputsize.place(x = 100, y = 205)
+opt_inputsize.place(x = 100, y = 185)
 #Containers
 placement_optionmenus_containers()
 window.mainloop()
