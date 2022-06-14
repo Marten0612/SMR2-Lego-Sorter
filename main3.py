@@ -186,7 +186,7 @@ def group_brick(class_part):
     return group
 
 def container(group, containerList):
-    for i in containerList:
+    for i in range(len(containerList)):
         if containerList[i] == group:
             return i + 1
         else:
@@ -237,26 +237,29 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
-    if (container_num == 3 or container_num == 4):
+        time.sleep(t3)
+        arduino.write(bytes(container_num, 'utf-8'))
+    elif (container_num == 3 or container_num == 4):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_3_4)
         t3 = t_tot - t2
-    if (container_num == 5 or container_num == 6):
+        time.sleep(t3)
+        arduino.write(bytes(container_num, 'utf-8'))
+    elif (container_num == 5 or container_num == 6):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_5_6)
         t3 = t_tot - t2
-    if (container_num == 7 or container_num == 8):
+        time.sleep(t3)
+        arduino.write(bytes(container_num, 'utf-8'))
+    elif (container_num == 7 or container_num == 8):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_7_8)
         t3 = t_tot - t2
-    if (container_num == 9):
-        pass
-    time.sleep(t3)
-    arduino.write(bytes(container_num, 'utf-8'))
-    
+        time.sleep(t3)
+        arduino.write(bytes(container_num, 'utf-8'))
 
 def start_sorting(size_Lego, containerList):
     counter = 0
