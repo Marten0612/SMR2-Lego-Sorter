@@ -25,6 +25,7 @@ distance_con_1_2 = 0.4615
 distance_con_3_4 = 0.6815
 distance_con_5_6 = 0.7015
 distance_con_7_8 = 0.9215
+conv_speed = 0.05#haaal weg zo!!!!!!!!!!!!!!!!
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
 abort = False
@@ -220,45 +221,48 @@ class SortingDone(Exception): pass
 
 def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     start = time.perf_counter()
-    frame1,frame2,frame3 = take_photo(cam1,cam2,cam3,model)
+    frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
     images = [frame1,frame2,frame3]
     class_names = detect_brick(images, model)
     class_part = classify_brick(class_names)
     group = group_brick(class_part)
-    container = container(group, containerList)
-    if (container == 1 or container == 2):
+    container_num = container(group, containerList)
+    if (container_num == 1 or container_num == 2):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
-    if (container == 3 or container == 4):
+    if (container_num == 3 or container_num == 4):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_3_4)
         t3 = t_tot - t2
-    if (container == 5 or container == 6):
+    if (container_num == 5 or container_num == 6):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_5_6)
         t3 = t_tot - t2
-    if (container == 7 or container == 8):
+    if (container_num == 7 or container_num == 8):
         finish = time.perf_counter()
         t2 = round(finish-start,2)
         t_tot = wait_cal(distance_con_7_8)
         t3 = t_tot - t2
-    if (container == 9):
+    if (container_num == 9):
         pass
     time.sleep(t3)
-    arduino.write(bytes(container, 'utf-8'))
+    arduino.write(bytes(container_num, 'utf-8'))
     
 
 def start_sorting(size_Lego, containerList):
     counter = 0
+    print("start sorteren")
     #Connect
     cam1, cam2, cam3 = cam_connect()
+    print("cams connected")
     arduino = arduino_connect()
+    print("arduino connected")
     # Model
-    model = torch.hub.load('C:\\Users\\BSL" "Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\yolov5', 'custom', path="C:\\Users\\BSL" "Bricks\\Documents\\GitHub\\SMR2-Lego-Sorterlego_model_8_juni.pt", source='local', _verbose=False)  # local repo
+    model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
