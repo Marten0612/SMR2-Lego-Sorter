@@ -22,7 +22,6 @@ Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
 static int serv_t = 2000;
-static int start_stop = 1000;
 
 // Variables will change:
 int x;
@@ -39,7 +38,6 @@ unsigned long lastMillis5;
 unsigned long lastMillis6;
 unsigned long lastMillis7;
 unsigned long lastMillis8;
-unsigned long lastMillis9;
 
 void setup() {
   // initialize input pins:
@@ -114,7 +112,9 @@ void loop() {
     //Serial.print(x);
     servo1.write(120);
     lastMillis1 = millis();
-  } if (currentTime - lastMillis1 > serv_t) {
+  }
+  
+  if (currentTime - lastMillis1 > serv_t) {
     //Serial.print(x + 1);
     servo1.write(30);
   }
@@ -189,14 +189,12 @@ void loop() {
   //IR sensor vision box
   if (!sState_vision && lastState_vision) {//Broken
     Serial.print(1);
-    lastMillis9 = millis();
-  } if (millis() - lastMillis9 > start_stop) {
-    motor_on();
   }
 
   //IR sensor conveyor belt 1
   if (!sState_conv_1 && lastState_conv_1) {//Broken
     Serial.print(2);
+    motor_on();
   }
 
   //IR sensor conveyor belt 2
