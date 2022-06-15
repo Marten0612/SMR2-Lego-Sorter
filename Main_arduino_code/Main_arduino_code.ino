@@ -6,9 +6,9 @@
 #define IRgate_vision 49
 #define IRgate_conv_1 51
 #define IRgate_conv_2 53
-#define feeder_l 9
-#define feeder_h 10
-#define hopper 11
+#define feeder_l 3
+#define feeder_h 12
+#define hopper 2
 
 // Create servo objects
 Servo servo1;  // create servo object to control servo 1
@@ -30,7 +30,7 @@ int sState_vision = 0, lastState_vision = 0;         // variable for reading the
 int sState_conv_1 = 0, lastState_conv_1 = 0;         // variable for reading the IR sensor status
 int sState_conv_2 = 0, lastState_conv_2 = 0;         // variable for reading the IR sensor status
 
-unsigned long lastMillis1 = 0;
+unsigned long lastMillis1;
 unsigned long lastMillis2;
 unsigned long lastMillis3;
 unsigned long lastMillis4;
@@ -45,6 +45,17 @@ void setup() {
   pinMode(IRgate_vision, INPUT); //Set sensor pin as input
   pinMode(IRgate_conv_1, INPUT); //Set sensor pin as input
   pinMode(IRgate_conv_2, INPUT); //Set sensor pin as input
+
+  // initialize output pins:
+  pinMode(feeder_l, OUTPUT);
+  pinMode(feeder_h, OUTPUT);
+  pinMode(hopper, OUTPUT);
+
+  // motors off
+  analogWrite(feeder_l, 0);
+  analogWrite(feeder_h, 0);
+  analogWrite(hopper, 0);
+
 
   // turn on pullup
   digitalWrite(IRgate_feeder, HIGH); // turn on the pullup
@@ -61,8 +72,6 @@ void setup() {
   servo6.attach(10);  // attaches the servo on pin 6 to the servo object
   servo7.attach(7);  // attaches the servo on pin 7 to the servo object
   servo8.attach(11);  // attaches the servo on pin 8 to the servo object
-
-
 
   // turn all servo's to the 0 position
   servo2.write(90);
@@ -81,9 +90,9 @@ void setup() {
 }
 
 void motor_on() {
-  analogWrite(feeder_l, 180);
+  analogWrite(feeder_l, 200);
   analogWrite(feeder_h, 200);
-  analogWrite(hopper, 225);
+  analogWrite(hopper, 100);
 }
 
 void motor_off() {
@@ -153,6 +162,10 @@ void loop() {
     servo8.write(95);
   }
 
+
+  if (x == 9) { 
+    motor_on();
+  }
   
 
   // read the state of the IR sensors value:
@@ -168,7 +181,6 @@ void loop() {
   //motor_on();
 
   //IR sensor feeder}
-  /*
   //IR sensor feeder
   if (!sState_feeder && lastState_feeder) {//Broken
     motor_off();
@@ -177,18 +189,18 @@ void loop() {
   //IR sensor vision box
   if (!sState_vision && lastState_vision) {//Broken
     Serial.print(1);
-    motor_on();
   }
 
   //IR sensor conveyor belt 1
   if (!sState_conv_1 && lastState_conv_1) {//Broken
     Serial.print(2);
+    motor_on();
   }
 
   //IR sensor conveyor belt 2
   if (!sState_conv_2 && lastState_conv_2) {//Broken
     Serial.print(3);
-  }*/
+  }
 
   lastState_feeder = sState_feeder;
   lastState_vision = sState_vision;

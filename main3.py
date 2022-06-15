@@ -25,7 +25,7 @@ distance_con_1_2 = 0.37 + 0*0.22
 distance_con_3_4 = 0.37 + 1*0.22
 distance_con_5_6 = 0.37 + 2*0.22
 distance_con_7_8 = 0.37 + 3*0.22
-conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
+#conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
 
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
@@ -98,7 +98,7 @@ def arduino_connect(): #Connect arduino/ serial communication
     arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
     return arduino
 
-def arduino_read(arduino): #Character 1,2,3 -> 49,50,51/ sensor visionbox, sensor after visionbox, 
+def arduino_read(arduino): #Character 1,2,3 -> 49,50,51/ sensor visionbox, sensor after visionbox, sensor end conveyor belt
     data = arduino.readline()
     data = int.from_bytes(data,"big")#.decode('ascii')
     return data
@@ -315,6 +315,10 @@ def start_sorting(size_Lego, containerList):
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
     #source='local' means that thea model niet in de terminal wordt laten zien.
+
+    start = 9 #value to communicate to arduino to start feeder and hopper
+    string_start = str(start)
+    arduino.write(bytes(string_start, 'utf-8'))
     try:
         while(True):
             data = arduino_read(arduino)
