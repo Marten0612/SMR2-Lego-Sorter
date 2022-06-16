@@ -324,6 +324,7 @@ def start_sorting():
     #source='local' means that thea model niet in de terminal wordt laten zien.
 
     start = 9 #value to communicate to arduino to start feeder and hopper
+    stop = 9 #value to communicate to arduino to start feeder and hopper
     string_start = str(start)
     arduino.write(bytes(string_start, 'utf-8'))
     try:
@@ -339,6 +340,9 @@ def start_sorting():
                 cam_release()
                 raise SortingDone
     except SortingDone:
+        print("Skip while")
+        string_stop = str(stop)
+        arduino.write(bytes(string_stop, 'utf-8'))
         pass
     
 #---------------------------------------------------------------------------------------
@@ -500,10 +504,11 @@ def start():
         opt_inputsize.config(state = 'disabled') #disable inputsize menu
         for i in range(1, total_containers + 1): #disable container menu's
             globals()[f'opt_container_{i}'].config(state = 'disabled')
-        pause_button['state'] = DISABLED
-        start_button['state'] = NORMAL
+        pause_button['state'] = NORMAL
+        start_button['state'] = DISABLED
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
-        window.after(100, start_sorting)
+        thread = threading.Thread(target= start_sorting)
+        thread.start()
 
 def pause():
     global thread_running
@@ -516,6 +521,9 @@ def pause():
     pause_button['state'] = DISABLED
     start_button['state'] = NORMAL
     canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
+    stop = 9
+    string_stop = str(stop)
+    arduino.write(bytes(string_stop, 'utf-8'))
 
 def e_stop():
     global thread_running
@@ -599,7 +607,7 @@ font_buttons = 'Helvetica 24 bold'
 start_button = Button(window, text = "Start sorting", command = start, height = 1, width = 10, bg = 'green', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 start_button.place(x=100, y=510) 
-pause_button = Button(window, text = "Pause", command = pause(), height = 1, width = 10, bg = 'orange', fg = 'white', 
+pause_button = Button(window, text = "Pause", command = pause, height = 1, width = 10, bg = 'orange', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 pause_button.place(x=400, y=510)
 pause_button['state'] = DISABLED

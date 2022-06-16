@@ -22,6 +22,7 @@ Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
 static int serv_t = 1000;
+static int serv_t2 = 300;
 static int start_stop = 300;
 
 // Variables will change:
@@ -42,8 +43,10 @@ boolean servo_7_state = false;
 boolean servo_8_state = false;
 boolean state_vision = false;
 boolean calibrate_state = false;
+boolean state_machine = false;
 
 unsigned long lastMillis1;
+unsigned long lastMillis1_;
 unsigned long lastMillis2;
 unsigned long lastMillis3;
 unsigned long lastMillis4;
@@ -105,8 +108,8 @@ void setup() {
 
 void motor_on() {
   if (calibrate_state == false){
-    analogWrite(feeder_l, 200);
-    analogWrite(feeder_h, 200);
+    analogWrite(feeder_l, 210);
+    analogWrite(feeder_h, 225);
     analogWrite(hopper, 60);
   }
 }
@@ -121,8 +124,9 @@ void loop() {
   //while (!Serial.available());
   unsigned long currentTime = millis();
   x = Serial.readString().toInt(); //Read serial communciation
-  //Serial.print(x + 1);
+  
 
+  
   //Activate servos when serial comminication receives variable
   if ((x == 1) && (!servo_2_state)){
     //Serial.print(x);
@@ -130,10 +134,14 @@ void loop() {
     lastMillis1 = millis();
     servo_1_state = true;
   }if (currentTime - lastMillis1 > serv_t) {
-    //Serial.print(x + 1);
+    servo1.write(30);
+    servo_1_state = false; 
+    lastMillis1 = millis();
+  }if (currentTime - lastMillis1_ > serv_t2) {
     servo1.write(30);
     servo_1_state = false; 
   }
+  
   if ((x == 2) && (!servo_1_state)){
     servo2.write(0);
     lastMillis2 = millis();
@@ -191,17 +199,16 @@ void loop() {
     servo_1_state = false;
   }
   if (x == 9) { 
-    motor_on();
+    if (state_machine == false){
+      motor_on();
+      state_machine = true;
+    }
+    else{
+      motor_off();
+      state_machine = false;
+    }     
   }
-  if (x == 10) { 
-    calibrate_state = true;
-    servo6.write(10);
-  }
-  if (x == 11) { 
-    calibrate_state = false;
-  }
-  
-  
+
 
   // read the state of the IR sensors value:
   sState_feeder = digitalRead(IRgate_feeder);
