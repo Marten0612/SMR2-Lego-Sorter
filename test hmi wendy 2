@@ -125,13 +125,13 @@ def window_forgot():
 
 
 
-
-
-def start_sorting(size_Lego, containerList):
+def start_sorting():
     if running:
-        time.sleep(1)
+        time.sleep(0.5)
         print(size_Lego, containerList)
-        window.after(500, start_sorting(size_Lego, containerList))
+        window.after(500, start_sorting)
+
+
   
 
 def pauze():
@@ -168,7 +168,7 @@ def start_thread():
 
         global running
         running = True
-        window.after(1000, start_sorting(size_Lego, containerList))
+        window.after(1000, start_sorting)
 
 
 def close_thread():

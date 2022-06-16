@@ -163,9 +163,8 @@ import time
 
 
 
-def start_sorting(size_Lego, containerList):
+def start_sorting():
     while thread_running:
-        time.sleep(1)
         print(size_Lego, containerList)
   
 
@@ -180,7 +179,9 @@ def pauze():
 
 def start_thread():
     proceed = False
+    global size_Lego
     size_Lego = variable_inputsize.get()
+    global containerList
     containerList = [None] * 8
     for i in range(total_containers):
         var = globals()[f'variable_container_{i + 1}'].get()
@@ -195,14 +196,17 @@ def start_thread():
         opt_inputsize.config(state = 'disabled') #disable inputsize menu
         for i in range(1, total_containers + 1): #disable container menu's
             globals()[f'opt_container_{i}'].config(state = 'disabled')
-        canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
-        pauze_button['state'] = NORMAL
-        start_button['state'] = DISABLED
+        window.after(500, start_thread_2())
 
-        global thread_running
-        thread_running = True
-        thread = threading.Thread(target= start_sorting(size_Lego, containerList))
-        thread.start()
+def start_thread_2():
+    canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
+    pauze_button['state'] = NORMAL
+    start_button['state'] = DISABLED
+
+    global thread_running
+    thread_running = True
+    thread = threading.Thread(target= start_sorting())
+    thread.start()
 
 
 def close_thread():
