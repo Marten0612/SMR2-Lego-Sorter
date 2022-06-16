@@ -80,7 +80,7 @@ void setup() {
   servo8.write(95);
 
   servo1.write(30);
-  servo3.write(20);
+  servo3.write(25);
   servo5.write(35);
   servo7.write(40);
 
@@ -129,7 +129,7 @@ void loop() {
     servo3.write(120);
     lastMillis3 = millis();
   } if (millis() - lastMillis3 > serv_t) {
-    servo3.write(20);
+    servo3.write(25); // changed from 20
   }
   if (x == 4) {
     servo4.write(0);
