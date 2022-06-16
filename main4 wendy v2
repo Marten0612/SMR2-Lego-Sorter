@@ -4,7 +4,6 @@
 from ast import Pass
 import tkinter as tk 
 from tkinter import *
-from tracemalloc import stop
 from PIL import Image, ImageTk
 from datetime import datetime, timedelta
 from this import d
@@ -309,38 +308,40 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         print("servo signal send")
 
 def start_sorting():
-    counter = 0
-    print("start sorteren")
-    #Connect
-    cam1, cam2, cam3 = cam_connect()
-    print("cams connected")
-    arduino = arduino_connect()
-    print("arduino connected")
-    # Model
-    model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
-    #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
-    #custom means that we use a model trained by ourselves, instead of a pretrained one.
-    #path is the model we use, located in the same file as this code.
-    #source='local' means that thea model niet in de terminal wordt laten zien.
+    if thread_running == True:
+        counter = 0
+        print("start sorteren")
+        #Connect
+        cam1, cam2, cam3 = cam_connect()
+        print("cams connected")
+        arduino = arduino_connect()
+        print("arduino connected")
+        # Model
+        model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
+        #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
+        #custom means that we use a model trained by ourselves, instead of a pretrained one.
+        #path is the model we use, located in the same file as this code.
+        #source='local' means that thea model niet in de terminal wordt laten zien.
 
-    start = 9 #value to communicate to arduino to start feeder and hopper
-    string_start = str(start)
-    arduino.write(bytes(string_start, 'utf-8'))
-    try:
-        while thread_running:
-            data = arduino_read(arduino)
+        start = 9 #value to communicate to arduino to start feeder and hopper
+        string_start = str(start)
+        arduino.write(bytes(string_start, 'utf-8'))
+        try:
+            while(True):
+                data = arduino_read(arduino)
+                
+                if (data == 49):
+                    globals()['t%s' % counter] = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList, arduino))
+                    globals()['t%s' % counter].start()
+                    counter += 1
 
-            if (data == 49):
-                globals()['t%s' % counter] = threading.Thread(target=sorting_steps, args=(cam1,cam2,cam3,model,containerList, arduino))
-                globals()['t%s' % counter].start()
-                counter += 1
+                if (e_stop == True):
+                    cam_release()
+                    raise SortingDone
+        except SortingDone:
+            pass
 
-            if (e_stop == True):
-                cam_release()
-                raise SortingDone
-    except SortingDone:
-        pass
-    
+
 #---------------------------------------------------------------------------------------
 """HMI"""
 
@@ -461,11 +462,13 @@ def window_e_stop():
         opt_inputsize.config(state = 'normal') #enable inputsize menu
         for i in range(1, total_containers + 1): #enable container menu's
             globals()[f'opt_container_{i}'].config(state = 'normal')
-        start_button['state'] = NORMAL
+        start_pause_button['state'] = NORMAL
         e_stop_button['state'] = NORMAL
         empty_button['state'] = NORMAL
         turn_off__button['state'] = NORMAL
         e_stop_window.destroy()
+        start_pause_button['text'] = "Start sorting"
+        start_pause_button['bg'] = 'green'
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
 
     font_buttons = 'Helvetica 28 bold'
@@ -476,9 +479,9 @@ def window_e_stop():
                       font = font_buttons, borderwidth = 10)
     continue_button.place(x=420, y=300) 
 
-#functions of the buttons of main window
-def start():
-    global thread_running 
+
+def start_thread():
+    global thread_running
     thread_running = True
     proceed = False
     global size_Lego
@@ -500,22 +503,32 @@ def start():
         opt_inputsize.config(state = 'disabled') #disable inputsize menu
         for i in range(1, total_containers + 1): #disable container menu's
             globals()[f'opt_container_{i}'].config(state = 'disabled')
-        pause_button['state'] = DISABLED
-        start_button['state'] = NORMAL
+        start_pause_button['text'] = "Pause"
+        start_pause_button['bg'] = 'orange'
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
-        window.after(100, start_sorting)
+        thread_sorting = threading.Thread(target = start_sorting)
 
-def pause():
-    global thread_running
-    thread_running = False
-    opt_inputsize.config(state = 'normal') #inputsize menu enabled
-    for i in range(1, total_containers + 1): #container menu's enabled
-        globals()[f'opt_container_{i}'].config(state = 'normal')
-    print("De machine wordt gestopt")
-    #stopmachinefunctie()
-    pause_button['state'] = DISABLED
-    start_button['state'] = NORMAL
-    canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
+
+
+
+#functions of the buttons of main window
+def start_pause():
+    if start_pause_button['text'] == "Start sorting":
+        start_thread()
+        
+    elif start_pause_button['text'] == "Pause":
+        global thread_running
+        thread_running = False
+        opt_inputsize.config(state = 'normal') #inputsize menu enabled
+        for i in range(1, total_containers + 1): #container menu's enabled
+            globals()[f'opt_container_{i}'].config(state = 'normal')
+        print("De machine wordt gestopt")
+        #stopmachinefunctie()
+        start_pause_button['text'] = "Start sorting"
+        start_pause_button['bg'] = 'green'
+        canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
+    else:
+        print("Something is wrong")
 
 def e_stop():
     global thread_running
@@ -526,8 +539,7 @@ def e_stop():
     opt_inputsize.config(state = 'disabled') #disable inputsize menu
     for i in range(1, total_containers + 1): #disable container menu's
         globals()[f'opt_container_{i}'].config(state = 'disabled')
-    pause_button['state'] = DISABLED
-    start_button['state'] = DISABLED
+    start_pause_button['state'] = DISABLED
     e_stop_button['state'] = DISABLED
     empty_button['state'] = DISABLED
     turn_off__button['state'] = DISABLED
@@ -596,13 +608,9 @@ labels()
 
 #Buttons main window
 font_buttons = 'Helvetica 24 bold'
-start_button = Button(window, text = "Start sorting", command = start, height = 1, width = 10, bg = 'green', fg = 'white', 
+start_pause_button = Button(window, text = "Start sorting", command = start_pause, height = 1, width = 30, bg = 'green', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-start_button.place(x=100, y=510) 
-pause_button = Button(window, text = "Pause", command = pause(), height = 1, width = 10, bg = 'orange', fg = 'white', 
-                      font = font_buttons, borderwidth = 10)
-pause_button.place(x=400, y=510)
-pause_button['state'] = DISABLED
+start_pause_button.place(x=100, y=510) 
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 e_stop_button.place(x=970, y=125) 

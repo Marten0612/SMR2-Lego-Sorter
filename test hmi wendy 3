@@ -18,10 +18,22 @@ import threading
 
 #---------------------------------------------------------------------------------------
 """Global variables"""
+counter = 0 #Brick counter
+servo_rot_time = 0.3 #Rotation time 90 degree
+distance_cam = 0.106 #distance from sensor to photo position
+distance_con_1_2 = (0.37 + 0*0.22) -0.05
+distance_con_3_4 = (0.37 + 1*0.22) -0.05
+distance_con_5_6 = (0.37 + 2*0.22) -0.05
+distance_con_7_8 = (0.37 + 3*0.22) -0.05
+#conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
+
 conf_tresh = 0.9 #Confidence treshold
 e_stop = False
 abort = False
 continu = False
+
+
+
 
 #---------------------------------------------------------------------------------------
 """HMI"""
@@ -143,13 +155,13 @@ def window_e_stop():
         opt_inputsize.config(state = 'normal') #enable inputsize menu
         for i in range(1, total_containers + 1): #enable container menu's
             globals()[f'opt_container_{i}'].config(state = 'normal')
-        pauze_button['state'] = NORMAL
-        start_button['state'] = NORMAL
-
+        start_pause_button['state'] = NORMAL
         e_stop_button['state'] = NORMAL
         empty_button['state'] = NORMAL
         turn_off__button['state'] = NORMAL
         e_stop_window.destroy()
+        start_pause_button['text'] = "Start sorting"
+        start_pause_button['bg'] = 'green'
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
 
     font_buttons = 'Helvetica 28 bold'
@@ -159,27 +171,15 @@ def window_e_stop():
     continue_button = Button(e_stop_window, text = "Continue", command = continu, height = 2, width = 10, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
     continue_button.place(x=420, y=300) 
-import time
-
-
 
 def start_sorting():
     while thread_running:
         print(size_Lego, containerList)
-  
-
-def pauze():
-    opt_inputsize.config(state = 'normal') #inputsize menu enabled
-    for i in range(1, total_containers + 1): #container menu's enabled
-        globals()[f'opt_container_{i}'].config(state = 'normal')
-    print("De machine wordt gestopt")
-    #stopmachinefunctie()
-    canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
-    pauze_button['state'] = DISABLED
-    start_button['state'] = NORMAL
 
 
 def start_thread():
+    global thread_running
+    thread_running = True
     proceed = False
     global size_Lego
     size_Lego = variable_inputsize.get()
@@ -195,56 +195,27 @@ def start_thread():
     proceed = checks(proceed, containerList, size_Lego)
     if proceed == True:
         print("De machine start met sorteren.")
+        print(size_Lego)
+        print(containerList)
         opt_inputsize.config(state = 'disabled') #disable inputsize menu
         for i in range(1, total_containers + 1): #disable container menu's
             globals()[f'opt_container_{i}'].config(state = 'disabled')
-        window.after(500, start_thread_2)
-
-def start_thread_2():
-    canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
-    pauze_button['state'] = NORMAL
-    start_button['state'] = DISABLED
-
-    global thread_running
-    thread_running = True
-    thread = threading.Thread(target= start_sorting)
-    thread.start()
+        start_pause_button['text'] = "Pause"
+        start_pause_button['bg'] = 'orange'
+        canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
+        thread_sorting = threading.Thread(target = start_sorting)
 
 
-def close_thread():
-    global thread_running 
-    thread_running = False
-    pauze()
-    
 
-'''
+
 #functions of the buttons of main window
 def start_pause():
-    proceed = False
     if start_pause_button['text'] == "Start sorting":
-        size_Lego = variable_inputsize.get()
-        containerList = [None] * 8
-        for i in range(total_containers):
-            var = globals()[f'variable_container_{i + 1}'].get()
-            if var == "None":
-                containerList[i] = var
-            else:
-                containerList[i] = var.lower()
-
-        proceed = checks(proceed, containerList, size_Lego)
-        if proceed == True:
-            print("De machine start met sorteren.")
-            
-            print(size_Lego)
-            print(containerList)
-            opt_inputsize.config(state = 'disabled') #disable inputsize menu
-            for i in range(1, total_containers + 1): #disable container menu's
-                globals()[f'opt_container_{i}'].config(state = 'disabled')
-            start_pause_button['text'] = "Pause"
-            start_pause_button['bg'] = 'orange'
-            canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
-
+        start_thread()
+        
     elif start_pause_button['text'] == "Pause":
+        global thread_running
+        thread_running = False
         opt_inputsize.config(state = 'normal') #inputsize menu enabled
         for i in range(1, total_containers + 1): #container menu's enabled
             globals()[f'opt_container_{i}'].config(state = 'normal')
@@ -255,16 +226,17 @@ def start_pause():
         canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
     else:
         print("Something is wrong")
-'''
+
 def e_stop():
+    global thread_running
+    thread_running = False
     print("Emergency stop activated")
     print("Machine will shutdown")
     #e_stop_functie()
     opt_inputsize.config(state = 'disabled') #disable inputsize menu
     for i in range(1, total_containers + 1): #disable container menu's
         globals()[f'opt_container_{i}'].config(state = 'disabled')
-    pauze_button['state'] = DISABLED
-    start_button['state'] = DISABLED
+    start_pause_button['state'] = DISABLED
     e_stop_button['state'] = DISABLED
     empty_button['state'] = DISABLED
     turn_off__button['state'] = DISABLED
@@ -273,13 +245,19 @@ def e_stop():
     
    
 def empty():
+    global thread_running
+    thread_running = False
     print("Machine will be stopped\nPlease empty machine")
 
 def off():
+    global thread_running
+    thread_running = False
     print("Machine will be turned off")
 
 def calibrate():
-    print("calibrate")
+    global thread_running
+    thread_running = False
+    print("start calibrate")
     
 
 #Open main window
@@ -326,14 +304,9 @@ labels()
 
 #Buttons main window
 font_buttons = 'Helvetica 24 bold'
-start_button = Button(window, text = "Start sorting", command = start_thread, height = 1, width = 10, bg = 'green', fg = 'white', 
+start_pause_button = Button(window, text = "Start sorting", command = start_pause, height = 1, width = 30, bg = 'green', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-start_button.place(x=100, y=510) 
-pauze_button = Button(window, text = "Pauze", command = close_thread, height = 1, width = 10, bg = 'orange', fg = 'white', 
-                      font = font_buttons, borderwidth = 10)
-pauze_button.place(x=400, y=510) 
-pauze_button['state'] = DISABLED
-
+start_pause_button.place(x=100, y=510) 
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 e_stop_button.place(x=970, y=125) 
