@@ -21,7 +21,7 @@ Servo servo7;  // create servo object to control servo 7
 Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
-static int serv_t = 2000;
+static int serv_t = 1000;
 
 // Variables will change:
 int x;
@@ -29,6 +29,15 @@ int sState_feeder = 0, lastState_feeder = 0;         // variable for reading the
 int sState_vision = 0, lastState_vision = 0;         // variable for reading the IR sensor status
 int sState_conv_1 = 0, lastState_conv_1 = 0;         // variable for reading the IR sensor status
 int sState_conv_2 = 0, lastState_conv_2 = 0;         // variable for reading the IR sensor status
+
+boolean servo_1_state = false;
+boolean servo_2_state = false;
+boolean servo_3_state = false;
+boolean servo_4_state = false;
+boolean servo_5_state = false;
+boolean servo_6_state = false;
+boolean servo_7_state = false;
+boolean servo_8_state = false;
 
 unsigned long lastMillis1;
 unsigned long lastMillis2;
@@ -108,58 +117,71 @@ void loop() {
   unsigned long currentTime = millis();
 
   //Activate servos when serial comminication receives variable
-  if (x == 1) {
+  if ((x == 1) && (!servo_2_state)){
     //Serial.print(x);
     servo1.write(120);
     lastMillis1 = millis();
-  }
-  
-  if (currentTime - lastMillis1 > serv_t) {
+    servo_1_state = true;
+  }if (currentTime - lastMillis1 > serv_t) {
     //Serial.print(x + 1);
     servo1.write(30);
+    servo_1_state = false; 
   }
-
-  if (x == 2) {
+  if ((x == 2) && (!servo_1_state)){
     servo2.write(0);
     lastMillis2 = millis();
+    servo_2_state = true;
   } if (millis() - lastMillis2 > serv_t) {
     servo2.write(90);
+    servo_1_state = false;
   }
-  if (x == 3) {
+  if ((x == 3) && (!servo_4_state)){
     servo3.write(120);
     lastMillis3 = millis();
+    servo_3_state = true;
   } if (millis() - lastMillis3 > serv_t) {
     servo3.write(25); // changed from 20
+    servo_1_state = false;
   }
-  if (x == 4) {
+  if ((x == 4) && (!servo_3_state)){
     servo4.write(0);
     lastMillis4 = millis();
+    servo_4_state = true;
   } if (millis() - lastMillis4 > serv_t) {
     servo4.write(85);
+    servo_1_state = false;
   }
-  if (x == 5) {
+  if ((x == 5) && (!servo_6_state)){
     servo5.write(130);
     lastMillis5 = millis();
+    servo_5_state = true;
   } if (millis() - lastMillis5 > serv_t) {
     servo5.write(35);
+    servo_1_state = false;
   }
-  if (x == 6) {
+  if ((x == 6) && (!servo_5_state)){
     servo6.write(10);
     lastMillis6 = millis();
+    servo_6_state = true;
   } if (millis() - lastMillis6 > serv_t) {
     servo6.write(105);
+    servo_1_state = false;
   }
-  if (x == 7) {
+  if ((x == 7) && (!servo_8_state)){
     servo7.write(130);
     lastMillis7 = millis();
+    servo_7_state = true;
   } if (millis() - lastMillis7 > serv_t) {
     servo7.write(40);
+    servo_1_state = false;
   }
-  if (x == 8) {
+  if ((x == 8) && (!servo_7_state)){
     servo8.write(0);
     lastMillis8 = millis();
+    servo_8_state = true;
   } if (millis() - lastMillis8 > serv_t) {
     servo8.write(95);
+    servo_1_state = false;
   }
 
 
