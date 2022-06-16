@@ -22,9 +22,11 @@ Servo servo8;  // create servo object to control servo 8
 
 // Variables won't change:
 static int serv_t = 1000;
+static int start_stop = 300;
 
 // Variables will change:
 int x;
+long wait = millis();
 int sState_feeder = 0, lastState_feeder = 0;         // variable for reading the IR sensor status
 int sState_vision = 0, lastState_vision = 0;         // variable for reading the IR sensor status
 int sState_conv_1 = 0, lastState_conv_1 = 0;         // variable for reading the IR sensor status
@@ -38,6 +40,8 @@ boolean servo_5_state = false;
 boolean servo_6_state = false;
 boolean servo_7_state = false;
 boolean servo_8_state = false;
+boolean state_vision = false;
+boolean calibrate_state = false;
 
 unsigned long lastMillis1;
 unsigned long lastMillis2;
@@ -47,6 +51,7 @@ unsigned long lastMillis5;
 unsigned long lastMillis6;
 unsigned long lastMillis7;
 unsigned long lastMillis8;
+unsigned long lastMillis9;
 
 void setup() {
   // initialize input pins:
@@ -99,9 +104,11 @@ void setup() {
 }
 
 void motor_on() {
-  analogWrite(feeder_l, 200);
-  analogWrite(feeder_h, 200);
-  analogWrite(hopper, 60);
+  if (calibrate_state == false){
+    analogWrite(feeder_l, 200);
+    analogWrite(feeder_h, 200);
+    analogWrite(hopper, 60);
+  }
 }
 
 void motor_off() {
@@ -112,9 +119,9 @@ void motor_off() {
 
 void loop() {
   //while (!Serial.available());
+  unsigned long currentTime = millis();
   x = Serial.readString().toInt(); //Read serial communciation
   //Serial.print(x + 1);
-  unsigned long currentTime = millis();
 
   //Activate servos when serial comminication receives variable
   if ((x == 1) && (!servo_2_state)){
@@ -183,11 +190,17 @@ void loop() {
     servo8.write(95);
     servo_1_state = false;
   }
-
-
   if (x == 9) { 
     motor_on();
   }
+  if (x == 10) { 
+    calibrate_state = true;
+    servo6.write(10);
+  }
+  if (x == 11) { 
+    calibrate_state = false;
+  }
+  
   
 
   // read the state of the IR sensors value:
@@ -211,12 +224,17 @@ void loop() {
   //IR sensor vision box
   if (!sState_vision && lastState_vision) {//Broken
     Serial.print(1);
+    wait = millis() + start_stop;
+    state_vision = true;
+  }if ((millis() >= wait) && (millis() <= (wait+10)) && state_vision){
+    motor_on();
+    lastMillis9 = 0;
+    state_vision = false;
   }
 
   //IR sensor conveyor belt 1
   if (!sState_conv_1 && lastState_conv_1) {//Broken
     Serial.print(2);
-    motor_on();
   }
 
   //IR sensor conveyor belt 2

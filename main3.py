@@ -212,6 +212,10 @@ def container(group, containerList):
 
 def cal_conv_speed():
     arduino = arduino_connect()
+    trigger_on = 'a'
+    trigger_off = 'b'
+    string1 = str(trigger_on)
+    arduino.write(bytes(string1, 'utf-8')) #Send signal to arduino, to let the arduino know the machine is calibrating
     distance = 0.95 #Distance between two sensors on conveyor belt
     print("arduino connected")
     sensor1_trigger = None
@@ -232,6 +236,8 @@ def cal_conv_speed():
     global conv_speed
     conv_speed = distance/time_lapsed
     print(conv_speed)
+    string2 = str(trigger_off)
+    arduino.write(bytes(string2, 'utf-8'))
 
 def wait_cal(distance): #Calculate time to wait
     return(distance/conv_speed)     
