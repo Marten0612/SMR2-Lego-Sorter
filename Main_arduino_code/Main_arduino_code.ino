@@ -104,6 +104,11 @@ void setup() {
   servo5.write(35);
   servo7.write(40);
 
+  // turn off all motors
+  analogWrite(feeder_l, 0);
+  analogWrite(feeder_h, 0);
+  analogWrite(hopper, 0);
+
   Serial.begin(115200);
   Serial.setTimeout(1);
 
@@ -127,8 +132,6 @@ void loop() {
   //while (!Serial.available());
   unsigned long currentTime = millis();
   x = Serial.readString().toInt(); //Read serial communciation
-  
-
   
   //Activate servos when serial comminication receives variable
   if ((x == 1) && (!servo_2_state)){
@@ -239,7 +242,7 @@ void loop() {
     motor_on();
     lastMillis9 = 0;
     state_vision = false;
-  }if ((millis() >= wait_turn_on) && (millis() <= (wait_turn_on+10)) && (!state_vision)){ // Check after 10 sec if start_stop system is true, if not turn on motors 
+  }if ((millis() >= wait_turn_on) && (millis() <= (wait_turn_on+10)) && start_stop_state){ // Check after 10 sec if start_stop system is true, if not turn on motors 
     motor_on();
     start_stop_state = false;
   }
