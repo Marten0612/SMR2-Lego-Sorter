@@ -514,8 +514,8 @@ def start():
         thread.start()
 
 def pause():
-    global thread_running
-    thread_running = False
+    # global thread_running
+    # thread_running = False
     opt_inputsize.config(state = 'normal') #inputsize menu enabled
     for i in range(1, total_containers + 1): #container menu's enabled
         globals()[f'opt_container_{i}'].config(state = 'normal')
@@ -553,6 +553,10 @@ def off():
     global thread_running
     thread_running = False
     print("Machine will be turned off")
+    stop = 9
+    string_stop = str(stop)
+    arduino.write(bytes(string_stop, 'utf-8'))
+    print('send stop')
 
 def calibrate_window(): #!!!
     calibrate = True

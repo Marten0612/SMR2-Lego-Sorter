@@ -112,7 +112,7 @@ void setup() {
 void motor_on() {
   if (calibrate_state == false){
     analogWrite(feeder_l, 210);
-    analogWrite(feeder_h, 255);
+    analogWrite(feeder_h, 170);
     analogWrite(hopper, 80);
   }
 }
