@@ -34,6 +34,8 @@ abort = False
 continu = False
 
 
+
+
 #These are the groups we will put in our machine
 brick = ['3005_1x1_Brick', '3004_1x2_Brick', '3622_1x3_Brick', '3010_1x4_Brick', \
           '3009_1x6_Brick', '3008_1x8_Brick', '6111_1x10_Brick']
@@ -210,9 +212,11 @@ def container(group, containerList):
 
     return container
 
+arduino = arduino_connect()
+print("arduino connected")
 
 def cal_conv_speed():
-    arduino = arduino_connect()
+    #arduino = arduino_connect()
     trigger_on = 'a'
     trigger_off = 'b'
     string1 = str(trigger_on)
@@ -314,8 +318,7 @@ def start_sorting():
     #Connect
     cam1, cam2, cam3 = cam_connect()
     print("cams connected")
-    arduino = arduino_connect()
-    print("arduino connected")
+  
     # Model
     model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
@@ -524,6 +527,7 @@ def pause():
     stop = 9
     string_stop = str(stop)
     arduino.write(bytes(string_stop, 'utf-8'))
+    print('send stop')
 
 def e_stop():
     global thread_running

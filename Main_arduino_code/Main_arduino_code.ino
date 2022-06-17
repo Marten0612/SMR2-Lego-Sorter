@@ -203,7 +203,7 @@ void loop() {
       motor_on();
       state_machine = true;
     }
-    else{
+    else if (state_machine == true){
       motor_off();
       state_machine = false;
     }     
