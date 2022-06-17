@@ -212,7 +212,7 @@ def container(group, containerList):
 
     return container
 
-arduino = arduino_connect()
+#arduino = arduino_connect()
 print("arduino connected")
 
 def cal_conv_speed():
@@ -356,24 +356,25 @@ def resize_image(file, devider): # Function to resize the window
    image = Image.open(file) # open image to resize it
    wid = round(int(image.width) / devider) # resize the image with width and height of root
    hig = round(int(image.height) / devider)
-   resized = image.resize((wid, hig), Image.Resampling.LANCZOS)
+   #resized = image.resize((wid, hig), Image.Resampling.LANCZOS)
+   resized = image.resize((wid, hig), Image.LANCZOS)
    image2 = ImageTk.PhotoImage(resized)
    return(image2)
 
 #function to make the labels on the main page
 def labels():
-    font_sorter = 'Helvetica 25 bold'
+    font_sorter = 'Helvetica 32 bold'
     font_other_labels = 'Helvetica 18'
     label_welcome = tk.Label(text = "The LEGO sorter", font = font_sorter, fg = 'red', bg = 'white')
     label_welcome.pack()
-    label_welcome.place(x = 310, y = 100)
-    label_size = tk.Label(text = "1. Please select your input size:", font = font_other_labels, fg = 'black', bg = 'white')
+    label_welcome.place(x = 270, y = 110)
+    label_size = tk.Label(text = "1. Press the calibrate button", font = font_other_labels, fg = 'black', bg = 'white')
     label_size.pack()
-    label_size.place(x = 60, y = 140)
+    label_size.place(x = 60, y = 180)
     label_containers = tk.Label(text = "2. Please select which LEGO you want in which container:", font = font_other_labels, fg = 'black', bg = 'white')
     label_containers.pack()
     label_containers.place(x = 60, y = 240)
-    Label_start_button = tk.Label(text = "3. Press me to start or pause the machine:", font = font_other_labels, fg = 'black', bg = 'white')
+    Label_start_button = tk.Label(text = "3. Press to start or pause the machine:", font = font_other_labels, fg = 'black', bg = 'white')
     Label_start_button.pack()
     Label_start_button.place(x = 60, y = 460)
     Label_names = tk.Label(text = "This machine is provided by SMR students: Marten Haaksema | Gijs van Haeff | Jip Rasenberg | Wendy Exterkate", 
@@ -410,11 +411,9 @@ def placement_optionmenus_containers():
         globals()[f'label_container_{i}'].pack(side = 'top')
         globals()[f'label_container_{i}'].place(x = loc_x, y = loc_y - afstand_label)
 
-def checks(proceed, containerList, size_Lego):
+def checks(proceed, containerList):
     checklist = [x for x in containerList if x != "None"]
     if len(checklist) == 0:
-        window_forgot()
-    elif size_Lego == "Size":
         window_forgot()
     elif len(checklist) != len(set(checklist)):
         window_forgot()
@@ -433,7 +432,7 @@ def window_forgot():
                             font = 'Helvetica 20 bold', fg = 'black', bg = 'white')
     label_wrong_forgot_window.pack(side = 'top')
     label_wrong_forgot_window.place(x = 200, y = 60)
-    label_options_forgot_window = tk.Label(forgot_window, text = "1. Is there an input for the inputsize?\n2. Is there an input for at least one container?\n3. Are there no duplicates in the containers?", 
+    label_options_forgot_window = tk.Label(forgot_window, text = "1.Is there an input for at least one container?\n2. Are there no duplicates in the containers?", 
                                            font = 'Helvetica 18', fg = 'black', bg = 'white' )
                             
     label_options_forgot_window.pack(fill = 'both', anchor = 'w')
@@ -465,13 +464,12 @@ def window_e_stop():
 
     def continu():
         continu = True
-        opt_inputsize.config(state = 'normal') #enable inputsize menu
         for i in range(1, total_containers + 1): #enable container menu's
             globals()[f'opt_container_{i}'].config(state = 'normal')
         start_button['state'] = NORMAL
-        e_stop_button['state'] = NORMAL
+        e_stop_button['state'] = DISABLED
         calibrate__button['state'] = NORMAL
-        turn_off__button['state'] = NORMAL
+        turn_off__button['state'] = DISABLED
         e_stop_window.destroy()
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
 
@@ -488,8 +486,6 @@ def start():
     global thread_running 
     thread_running = True
     proceed = False
-    global size_Lego
-    size_Lego = variable_inputsize.get()
     global containerList
     containerList = [None] * 8
     for i in range(total_containers):
@@ -499,15 +495,16 @@ def start():
         else:
             containerList[i] = var.lower()
 
-    proceed = checks(proceed, containerList, size_Lego)
+    proceed = checks(proceed, containerList)
     if proceed == True:
         print("De machine start met sorteren.")
-        print(size_Lego)
         print(containerList)
-        opt_inputsize.config(state = 'disabled') #disable inputsize menu
         for i in range(1, total_containers + 1): #disable container menu's
             globals()[f'opt_container_{i}'].config(state = 'disabled')
         pause_button['state'] = NORMAL
+        e_stop_button['state'] = NORMAL
+        turn_off__button['state'] = NORMAL
+        calibrate__button['state'] = DISABLED
         start_button['state'] = DISABLED
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is sorting")
         thread = threading.Thread(target= start_sorting)
@@ -516,7 +513,6 @@ def start():
 def pause():
     # global thread_running
     # thread_running = False
-    opt_inputsize.config(state = 'normal') #inputsize menu enabled
     for i in range(1, total_containers + 1): #container menu's enabled
         globals()[f'opt_container_{i}'].config(state = 'normal')
     print("De machine wordt gestopt")
@@ -533,7 +529,6 @@ def e_stop():
     thread_running = False
     print("Emergency stop activated")
     print("Machine will shutdown")
-    opt_inputsize.config(state = 'disabled') #disable inputsize menu
     for i in range(1, total_containers + 1): #disable container menu's
         globals()[f'opt_container_{i}'].config(state = 'disabled')
     pause_button['state'] = DISABLED
@@ -562,31 +557,29 @@ def calibrate_window(): #!!!
     calibrate = True
     calibrate_window = tk.Tk()
     calibrate_window.title("BSL Bricks")
-    calibrate_window.geometry('800x600')
+    calibrate_window.geometry('780x500')
     calibrate_window.resizable(True, True)
     calibrate_window.configure(background = 'white')
 
     label_calibrate = tk.Label(calibrate_window, text = "Calibration has started.", font = 'Helvetica 30 bold', fg = 'black', bg = 'white')
     label_calibrate.place(x = 170, y = 60)
 
-    label_calibrate__window = tk.Label(calibrate_window, text = "Turn on the conveyor belt and put a brick on it\n\nPress okay when the brick has fallen", 
+    label_calibrate__window = tk.Label(calibrate_window, text = "1.Turn on the conveyor belt\n2.Put a brick on the conveyorbelt after the vision box\n3.Press OK when the brick has fallen", 
                             font = 'Helvetica 20', fg = 'black', bg = 'white')
-    label_calibrate__window.pack(side = 'top')
-    label_calibrate__window.place(x = 100, y = 160)
+    label_calibrate__window.pack(fill = 'both', anchor = 'w')
+    label_calibrate__window.place(x = 70, y = 160)
                             
     def okay():
         okay = True
-        opt_inputsize.config(state = 'normal') #enable inputsize menu
         for i in range(1, total_containers + 1): #enable container menu's
             globals()[f'opt_container_{i}'].config(state = 'normal')
         start_button['state'] = NORMAL
-        e_stop_button['state'] = NORMAL
-        turn_off__button['state'] = NORMAL
+        calibrate__button['state'] = NORMAL
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
         calibrate_window.destroy()
 
     font_buttons = 'Helvetica 28 bold'
-    abort_button = Button(calibrate_window, text = "Okay", command = okay, height = 2, width = 10, bg = 'blue', fg = 'white', 
+    abort_button = Button(calibrate_window, text = "OK", command = okay, height = 2, width = 10, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
     abort_button.place(x=250, y=300) 
 
@@ -595,7 +588,6 @@ def calibrate(): #!!!
     thread_running = False
     print("start calibrate")
 
-    opt_inputsize.config(state = 'disabled') #disable inputsize menu
     for i in range(1, total_containers + 1): #disable container menu's
         globals()[f'opt_container_{i}'].config(state = 'disabled')
     pause_button['state'] = DISABLED
@@ -619,8 +611,8 @@ window.resizable(True, True)
 window.configure(background = 'white')
 
 #Logo BSL BRICKS canvas
-#file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
-file_logo_BSL = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+file_logo_BSL = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
+#file_logo_BSL = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\red-lego-background.jpg"
 canvas_logo_BSL = Canvas(window, width = 1600, height = 100, highlightthickness = 0)
 img_BSL = ImageTk.PhotoImage(Image.open(file_logo_BSL))
 canvas_logo_BSL.pack()
@@ -641,8 +633,8 @@ canvas_statusbar.place(x = 860, y = 550)
 text_statusbar = canvas_statusbar.create_text(200, 55, text = "Machine is idle", font = ('Helvetica 20 bold'), fill = 'black')
 
 #Logo SMR canvas
-#file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
-file_logo_SMR = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
+file_logo_SMR = "C:\\Users\\Wendy Exterkate\\OneDrive\\Documenten\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
+#file_logo_SMR = "C:\\Users\\BSL Bricks\\Documents\\GitHub\\SMR2-Lego-Sorter\\HMI (tkinter)\\SMR logo wide.png"
 
 canvas_logo_SMR = Canvas(window, width=500, height=100, highlightthickness = 0)
 canvas_logo_SMR.pack(fill=BOTH, expand=True)
@@ -665,18 +657,19 @@ pause_button['state'] = DISABLED
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 e_stop_button.place(x=970, y=125) 
+e_stop_button['state'] = DISABLED
 calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 calibrate__button.place(x=998, y=265)           
 turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-turn_off__button.place(x=998, y=405) 
+turn_off__button.place(x=998, y=405)
+turn_off__button['state'] = DISABLED
+
 
 
 #Variables
 total_containers = 8
-variable_inputsize = StringVar(window)
-variable_inputsize.set("Size") #default value
 for i in range(total_containers):
     globals()[f"variable_container_{i + 1}"] = StringVar(window)
     globals()[f"variable_container_{i + 1}"].set("None")
@@ -686,15 +679,8 @@ afstand_y = 90 #vertical distance between top left of the optionmenu's
 afstand_label = 30 #distance between top left of the label and the optionmenu
 
 #Optionmenus 
-OptionList_inputsize = ["Tray 2", "Tray 3 to 5", "Tray 6"]
 OptionList_mainclasses = ["Brick", "Block", "Plate", "Sheet", "Tile", "None"]
 font_opt_menu = ('Helvetica 12')
-#Inputsize
-opt_inputsize = tk.OptionMenu(window, variable_inputsize, *OptionList_inputsize)
-opt_inputsize.config(width = 10, font = font_opt_menu)
-opt_inputsize.pack(side = 'top')
-opt_inputsize.pack()
-opt_inputsize.place(x = 100, y = 185)
 #Containers
 placement_optionmenus_containers()
 window.mainloop()
