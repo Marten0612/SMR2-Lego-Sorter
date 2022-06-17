@@ -187,6 +187,8 @@ def group_brick(class_part):
         pass
     else:
         group = 'rest'
+    canvas_statusbar.itemconfig(text_statusbar, text = group)
+
     return group
 
 def container(group, containerList):
