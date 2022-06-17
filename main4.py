@@ -552,6 +552,7 @@ def off():
     string_stop = str(stop)
     arduino.write(bytes(string_stop, 'utf-8'))
     print('send stop')
+    window.destroy()
 
 def calibrate_window(): #!!!
     calibrate = True
