@@ -161,7 +161,7 @@ void loop() {
     lastMillis3 = millis();
     servo_3_state = true;
   } if (millis() - lastMillis3 > serv_t) {
-    servo3.write(25); // changed from 20
+    servo3.write(20);
     servo_3_state = false;
   }
   if ((x == 4) && (!servo_3_state)){
