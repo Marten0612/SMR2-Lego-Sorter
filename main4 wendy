@@ -470,7 +470,7 @@ def window_e_stop():
             globals()[f'opt_container_{i}'].config(state = 'normal')
         start_button['state'] = NORMAL
         e_stop_button['state'] = NORMAL
-        empty_button['state'] = NORMAL
+        calibrate__button['state'] = NORMAL
         turn_off__button['state'] = NORMAL
         e_stop_window.destroy()
         canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
@@ -520,7 +520,6 @@ def pause():
     for i in range(1, total_containers + 1): #container menu's enabled
         globals()[f'opt_container_{i}'].config(state = 'normal')
     print("De machine wordt gestopt")
-    #stopmachinefunctie()
     pause_button['state'] = DISABLED
     start_button['state'] = NORMAL
     canvas_statusbar.itemconfig(text_statusbar, text = "Machine is idle")
@@ -534,14 +533,13 @@ def e_stop():
     thread_running = False
     print("Emergency stop activated")
     print("Machine will shutdown")
-    #e_stop_functie()
     opt_inputsize.config(state = 'disabled') #disable inputsize menu
     for i in range(1, total_containers + 1): #disable container menu's
         globals()[f'opt_container_{i}'].config(state = 'disabled')
     pause_button['state'] = DISABLED
     start_button['state'] = DISABLED
     e_stop_button['state'] = DISABLED
-    empty_button['state'] = DISABLED
+    calibrate__button['state'] = DISABLED
     turn_off__button['state'] = DISABLED
     canvas_statusbar.itemconfig(text_statusbar, text = "E-STOP")
     window_e_stop()
@@ -550,23 +548,64 @@ def e_stop():
     arduino.write(bytes(string_stop, 'utf-8'))
     print('send stop')
     
-   
-def empty():
-    global thread_running
-    thread_running = False
-    print("Machine will be stopped\nPlease empty machine")
 
 def off():
     global thread_running
     thread_running = False
     print("Machine will be turned off")
 
-def calibrate():
+def calibrate_window(): #!!!
+    calibrate = True
+    calibrate_window = tk.Tk()
+    calibrate_window.title("BSL Bricks")
+    calibrate_window.geometry('800x600')
+    calibrate_window.resizable(True, True)
+    calibrate_window.configure(background = 'white')
+
+    label_calibrate = tk.Label(calibrate_window, text = "Calibration has started.", font = 'Helvetica 30 bold', fg = 'black', bg = 'white')
+    label_calibrate.place(x = 170, y = 60)
+
+    label_calibrate__window = tk.Label(calibrate_window, text = "Turn on the conveyor belt and put a brick on it\n\nPress okay when the brick has fallen", 
+                            font = 'Helvetica 20', fg = 'black', bg = 'white')
+    label_calibrate__window.pack(side = 'top')
+    label_calibrate__window.place(x = 100, y = 160)
+                            
+    def okay():
+        okay = True
+        opt_inputsize.config(state = 'normal') #enable inputsize menu
+        for i in range(1, total_containers + 1): #enable container menu's
+            globals()[f'opt_container_{i}'].config(state = 'normal')
+        start_button['state'] = NORMAL
+        e_stop_button['state'] = NORMAL
+        turn_off__button['state'] = NORMAL
+        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
+        calibrate_window.destroy()
+
+    font_buttons = 'Helvetica 28 bold'
+    abort_button = Button(calibrate_window, text = "Okay", command = okay, height = 2, width = 10, bg = 'blue', fg = 'white', 
+                      font = font_buttons, borderwidth = 10)
+    abort_button.place(x=250, y=300) 
+
+def calibrate(): #!!!
     global thread_running
     thread_running = False
     print("start calibrate")
+
+    opt_inputsize.config(state = 'disabled') #disable inputsize menu
+    for i in range(1, total_containers + 1): #disable container menu's
+        globals()[f'opt_container_{i}'].config(state = 'disabled')
+    pause_button['state'] = DISABLED
+    start_button['state'] = DISABLED
+    e_stop_button['state'] = DISABLED
+    turn_off__button['state'] = DISABLED
+    calibrate__button['state'] = DISABLED
+    canvas_statusbar.itemconfig(text_statusbar, text = "Calibrate")
+    calibrate_window()
+    stop = 9    #!!!
+    string_stop = str(stop) #!!!
+    arduino.write(bytes(string_stop, 'utf-8'))#!!!
+    print('send stop')#!!!
     cal_conv_speed()
-    
 
 #Open main window
 window = tk.Tk()
@@ -622,15 +661,13 @@ pause_button['state'] = DISABLED
 e_stop_button = Button(window, text = "E-STOP", command = e_stop, height = 2, width = 10, bg = 'red', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 e_stop_button.place(x=970, y=125) 
-empty_button = Button(window, text = "Empty\nsystem", command = empty, height = 2, width = 7, bg = 'blue', fg = 'white', 
+calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
-empty_button.place(x=998, y=265)           
+calibrate__button.place(x=998, y=265)           
 turn_off__button = Button(window, text = "Turn off\nsystem", command = off, height = 2, width = 7, bg = 'blue', fg = 'white', 
                       font = font_buttons, borderwidth = 10)
 turn_off__button.place(x=998, y=405) 
-calibrate__button = Button(window, text = "Calibrate", command = calibrate, height = 2, width = 7, bg = 'blue', fg = 'white', 
-                      font = font_buttons, borderwidth = 10)
-calibrate__button.place(x=778, y=270) 
+
 
 #Variables
 total_containers = 8
