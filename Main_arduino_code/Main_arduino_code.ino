@@ -154,7 +154,7 @@ void loop() {
     servo_2_state = true;
   } if (millis() - lastMillis2 > serv_t) {
     servo2.write(90);
-    servo_1_state = false;
+    servo_2_state = false;
   }
   if ((x == 3) && (!servo_4_state)){
     servo3.write(120);
@@ -162,7 +162,7 @@ void loop() {
     servo_3_state = true;
   } if (millis() - lastMillis3 > serv_t) {
     servo3.write(25); // changed from 20
-    servo_1_state = false;
+    servo_3_state = false;
   }
   if ((x == 4) && (!servo_3_state)){
     servo4.write(0);
@@ -170,7 +170,7 @@ void loop() {
     servo_4_state = true;
   } if (millis() - lastMillis4 > serv_t) {
     servo4.write(85);
-    servo_1_state = false;
+    servo_4_state = false;
   }
   if ((x == 5) && (!servo_6_state)){
     servo5.write(130);
@@ -178,7 +178,7 @@ void loop() {
     servo_5_state = true;
   } if (millis() - lastMillis5 > serv_t) {
     servo5.write(35);
-    servo_1_state = false;
+    servo_5_state = false;
   }
   if ((x == 6) && (!servo_5_state)){
     servo6.write(10);
@@ -186,7 +186,7 @@ void loop() {
     servo_6_state = true;
   } if (millis() - lastMillis6 > serv_t) {
     servo6.write(105);
-    servo_1_state = false;
+    servo_6_state = false;
   }
   if ((x == 7) && (!servo_8_state)){
     servo7.write(130);
@@ -194,7 +194,7 @@ void loop() {
     servo_7_state = true;
   } if (millis() - lastMillis7 > serv_t) {
     servo7.write(40);
-    servo_1_state = false;
+    servo_7_state = false;
   }
   if ((x == 8) && (!servo_7_state)){
     servo8.write(0);
@@ -202,7 +202,7 @@ void loop() {
     servo_8_state = true;
   } if (millis() - lastMillis8 > serv_t) {
     servo8.write(95);
-    servo_1_state = false;
+    servo_8_state = false;
   }
   if (x == 9) { 
     if (state_machine == false){
