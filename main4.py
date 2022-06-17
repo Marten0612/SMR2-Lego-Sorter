@@ -322,7 +322,7 @@ def start_sorting():
     print("cams connected")
   
     # Model
-    model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\lego_model_8_juni.pt", source='local', _verbose=False)  # local repo
+    model = torch.hub.load('C:\\LEGO_Sorter\\yolov5', 'custom', path="C:\\LEGO_Sorter\\best_small_60_40.pt", source='local', _verbose=False)  # local repo
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
@@ -600,10 +600,6 @@ def calibrate(): #!!!
     calibrate__button['state'] = DISABLED
     canvas_statusbar.itemconfig(text_statusbar, text = "Calibrate")
     calibrate_window()
-    stop = 9    #!!!
-    string_stop = str(stop) #!!!
-    arduino.write(bytes(string_stop, 'utf-8'))#!!!
-    print('send stop')#!!!
     cal_conv_speed()
 
 #Open main window
