@@ -545,6 +545,10 @@ def e_stop():
     turn_off__button['state'] = DISABLED
     canvas_statusbar.itemconfig(text_statusbar, text = "E-STOP")
     window_e_stop()
+    stop = 9
+    string_stop = str(stop)
+    arduino.write(bytes(string_stop, 'utf-8'))
+    print('send stop')
     
    
 def empty():

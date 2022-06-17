@@ -6,8 +6,8 @@
 #define IRgate_vision 49
 #define IRgate_conv_1 51
 #define IRgate_conv_2 53
-#define feeder_l 3
-#define feeder_h 12
+#define feeder_l 12
+#define feeder_h 3
 #define hopper 2
 
 // Create servo objects
@@ -24,10 +24,12 @@ Servo servo8;  // create servo object to control servo 8
 static int serv_t = 1000;
 static int serv_t2 = 300;
 static int start_stop = 300;
+static int wait_to_start = 10000;
 
 // Variables will change:
 int x;
 long wait = millis();
+long wait_turn_on = millis();
 int sState_feeder = 0, lastState_feeder = 0;         // variable for reading the IR sensor status
 int sState_vision = 0, lastState_vision = 0;         // variable for reading the IR sensor status
 int sState_conv_1 = 0, lastState_conv_1 = 0;         // variable for reading the IR sensor status
@@ -44,6 +46,7 @@ boolean servo_8_state = false;
 boolean state_vision = false;
 boolean calibrate_state = false;
 boolean state_machine = false;
+boolean start_stop_state = false;
 
 unsigned long lastMillis1;
 unsigned long lastMillis1_;
@@ -109,8 +112,8 @@ void setup() {
 void motor_on() {
   if (calibrate_state == false){
     analogWrite(feeder_l, 210);
-    analogWrite(feeder_h, 225);
-    analogWrite(hopper, 60);
+    analogWrite(feeder_h, 255);
+    analogWrite(hopper, 80);
   }
 }
 
@@ -219,24 +222,26 @@ void loop() {
   // Check if the sensor beams are broken
   // if it is, the sensorState is LOW:
 
-  
-  //motor_on();
-
-  //IR sensor feeder}
   //IR sensor feeder
   if (!sState_feeder && lastState_feeder) {//Broken
     motor_off();
+    start_stop_state = true;
+    wait_turn_on = millis() + wait_to_start;
   }
 
   //IR sensor vision box
   if (!sState_vision && lastState_vision) {//Broken
+    start_stop_state = true;
     Serial.print(1);
     wait = millis() + start_stop;
     state_vision = true;
-  }if ((millis() >= wait) && (millis() <= (wait+10)) && state_vision){
+  }if ((millis() >= wait) && (millis() <= (wait+10)) && state_vision){ // Turn on motor after start_stop time
     motor_on();
     lastMillis9 = 0;
     state_vision = false;
+  }if ((millis() >= wait_turn_on) && (millis() <= (wait_turn_on+10)) && (!state_vision)){ // Check after 10 sec if start_stop system is true, if not turn on motors 
+    motor_on();
+    start_stop_state = false;
   }
 
   //IR sensor conveyor belt 1
