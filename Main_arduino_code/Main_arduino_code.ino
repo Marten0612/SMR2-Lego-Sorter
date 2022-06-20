@@ -24,7 +24,7 @@ Servo servo8;  // create servo object to control servo 8
 static int serv_t = 1000;
 static int serv_t2 = 300;
 static int start_stop = 300;
-static int wait_to_start = 10000;
+static int wait_to_start = 5000;
 
 // Variables will change:
 int x;
