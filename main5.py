@@ -599,8 +599,9 @@ def calibrate(): #!!!
     turn_off__button['state'] = DISABLED
     calibrate__button['state'] = DISABLED
     canvas_statusbar.itemconfig(text_statusbar, text = "Calibrate")
-    thread_calibrate = threading.Thread(target= calibrate_window)
-    cal_conv_speed()
+    thread_calibrate = threading.Thread(target= cal_conv_speed)
+    thread_calibrate.start()
+    calibrate_window()
 
 #Open main window
 window = tk.Tk()
