@@ -33,9 +33,6 @@ e_stop = False
 abort = False
 continu = False
 
-
-
-
 #These are the groups we will put in our machine
 brick = ['3005_1x1_Brick', '3004_1x2_Brick', '3622_1x3_Brick', '3010_1x4_Brick', \
           '3009_1x6_Brick', '3008_1x8_Brick', '6111_1x10_Brick']
@@ -70,7 +67,6 @@ all_tile = ['3070_1x1_Tile', '3069_1x2_Tile', '63864_1x3_Tile', '2431_1x4_Tile',
             '6636_1x6_Tile', '4162_1x8_Tile', '3068_2x2_Tile', '26603_2x3_Tile', \
             '87079_2x4_Tile', '69729_2x6_Tile', '6934a_3x6_Tile', '6881_6x6_Tile', \
             '90498_8x16_Tile'] 
-
 
 #---------------------------------------------------------------------------------------
 """Main functions"""
@@ -188,11 +184,9 @@ def group_brick(class_part):
     else:
         group = 'rest'
     canvas_statusbar.itemconfig(text_statusbar, text = group)
-
     return group
 
 def container(group, containerList):
-
     if containerList[0] == group:
         container = 1
     elif containerList[1] == group:
@@ -211,11 +205,7 @@ def container(group, containerList):
         container = 8
     else:
         container = 9
-
     return container
-
-arduino = arduino_connect()
-print("arduino connected")
 
 def cal_conv_speed():
     #arduino = arduino_connect()
@@ -245,6 +235,8 @@ def cal_conv_speed():
     print(conv_speed)
     string2 = str(trigger_off)
     arduino.write(bytes(string2, 'utf-8'))
+    canvas_statusbar.itemconfig(text_statusbar, text = "machine is calibrated")
+
 
 def wait_cal(distance): #Calculate time to wait
     return(distance/conv_speed)     
@@ -326,7 +318,7 @@ def start_sorting():
     #../yolov5 betekend, pak uit het mapje hierboven (../) het bestandje yolov5.
     #custom means that we use a model trained by ourselves, instead of a pretrained one.
     #path is the model we use, located in the same file as this code.
-    #source='local' means that thea model niet in de terminal wordt laten zien.
+    #source='local' means that the model niet in de terminal wordt laten zien.
 
     start = 9 #value to communicate to arduino to start feeder and hopper
     stop = 9 #value to communicate to arduino to start feeder and hopper
@@ -556,7 +548,7 @@ def off():
     print('send stop')
     window.destroy()
 
-def calibrate_window(): #!!!
+def calibrate_window(): 
     calibrate = True
     calibrate_window = tk.Tk()
     calibrate_window.title("BSL Bricks")
@@ -586,7 +578,7 @@ def calibrate_window(): #!!!
                       font = font_buttons, borderwidth = 10)
     abort_button.place(x=250, y=300) 
 
-def calibrate(): #!!!
+def calibrate(): 
     global thread_running
     thread_running = False
     print("start calibrate")
@@ -603,7 +595,13 @@ def calibrate(): #!!!
     thread_calibrate.start()
     calibrate_window()
 
-#Open main window
+#--------------------------------------------------------------------------------------
+"""Connect Arduino"""
+arduino = arduino_connect()
+print("arduino connected")
+
+#--------------------------------------------------------------------------------------
+"""Open main window"""
 window = tk.Tk()
 window.title("BSL Bricks")
 window.geometry('1280x650')
