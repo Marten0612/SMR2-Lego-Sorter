@@ -238,11 +238,11 @@ void loop() {
     Serial.print(1);
     wait = millis() + start_stop;
     state_vision = true;
-  }if ((millis() >= wait) && (millis() <= (wait+10)) && state_vision){ // Turn on motor after start_stop time
+  }if ((millis() >= wait) && (millis() <= (wait+10)) && state_vision && state_machine){ // Turn on motor after start_stop time
     motor_on();
     lastMillis9 = 0;
     state_vision = false;
-  }if ((millis() >= wait_turn_on) && (millis() <= (wait_turn_on+10)) && start_stop_state){ // Check after 10 sec if start_stop system is true, if not turn on motors 
+  }if ((millis() >= wait_turn_on) && (millis() <= (wait_turn_on+10)) && start_stop_state && state_machine){ // Check after 5 sec if start_stop system is true, if not turn on motors 
     motor_on();
     start_stop_state = false;
   }
