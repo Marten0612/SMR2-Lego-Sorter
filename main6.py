@@ -125,15 +125,16 @@ def detect_brick(images, model):
     class_names = [None] * 3
     for i in range(3):
         img = images[i]
-        # Inference
         results = model(img)
         # Results
         data = results.pandas().xyxy[0]
         if len(data) > 1:
             class_names[i] = 'rest'
+            print("rest")
             continue #He will still check all pictures. Change to break to stop immediately.
         if data.empty:
-                class_names[i] = 'rest'
+            class_names[i] = 'rest'
+            print("rest")
         else:
             confidence = data.iloc[0]['confidence']
             print("cam sees: {} with confidence {}".format(data.iloc[0]['name'], data.iloc[0]['confidence']))
@@ -183,7 +184,7 @@ def group_brick(class_part):
         pass
     else:
         group = 'rest'
-    canvas_statusbar.itemconfig(text_statusbar, text = group)
+    canvas_statusbar.itemconfig(text_statusbar, text = group) #!!!
     return group
 
 def container(group, containerList):
@@ -247,6 +248,7 @@ class SortingDone(Exception): pass
 """Start sorting"""
 
 def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
+    grouplist = []
     start = time.perf_counter()
     print(start)
     frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
@@ -254,10 +256,12 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     images = [frame1,frame2,frame3]
     class_names = detect_brick(images, model)
     print("3 classes")
-    class_part = classify_brick(class_names)
+    for i in range(len(class_names)):
+        group = group_brick(class_names[i])
+        print(group)
+        grouplist[i] = group
+    class_part = classify_brick(grouplist)
     print(class_part)
-    group = group_brick(class_part)
-    print(group)
     container_num = container(group, containerList)
     print("container number")
     print(container_num)
