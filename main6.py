@@ -262,7 +262,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
         grouplist[i] = group
     class_part = classify_brick(grouplist)
     print(class_part)
-    container_num = container(group, containerList)
+    container_num = container(class_part, containerList)
     print("container number")
     print(container_num)
     if (container_num == 1 or container_num == 2):
