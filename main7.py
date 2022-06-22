@@ -28,7 +28,7 @@ distance_con_5_6 = (0.37 + 2*0.22) -0.05
 distance_con_7_8 = (0.37 + 3*0.22) -0.05
 #conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
 
-conf_tresh = 0.9 #Confidence treshold
+conf_tresh = 0.8 #Confidence treshold
 e_stop = False
 abort = False
 continu = False
