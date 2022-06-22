@@ -267,7 +267,7 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     print(container_num)
     if (container_num == 1 or container_num == 2):
         finish = time.perf_counter()
-        t2 = round(finish-start,2)
+        t2 = round(finish-start, 2)
         t_tot = wait_cal(distance_con_1_2)
         t3 = t_tot - t2
         print(t3)
