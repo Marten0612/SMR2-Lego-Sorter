@@ -26,9 +26,8 @@ distance_con_1_2 = (0.37 + 0*0.22) -0.05
 distance_con_3_4 = (0.37 + 1*0.22) -0.05
 distance_con_5_6 = (0.37 + 2*0.22) -0.05
 distance_con_7_8 = (0.37 + 3*0.22) -0.05
-#conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
 
-conf_tresh = 0.9 #Confidence treshold
+conf_tresh = 0.8 #Confidence treshold
 e_stop = False
 abort = False
 continu = False
@@ -134,11 +133,13 @@ def detect_brick(images, model):
             continue #He will still check all pictures. Change to break to stop immediately.
         if data.empty:
                 class_names[i] = 'rest'
+                print("rest empty")
         else:
             confidence = data.iloc[0]['confidence']
             print("cam sees: {} with confidence {}".format(data.iloc[0]['name'], data.iloc[0]['confidence']))
             if confidence < conf_tresh:
                 class_names[i] = 'rest'
+                print("rest <")
             else:
                 class_names[i] = data.iloc[0]['name']
     return class_names

@@ -28,7 +28,7 @@ distance_con_5_6 = (0.37 + 2*0.22) -0.05
 distance_con_7_8 = (0.37 + 3*0.22) -0.05
 #conv_speed = 0.063 #weg haleneeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!
 
-conf_tresh = 0.9 #Confidence treshold
+conf_tresh = 0.8 #Confidence treshold
 e_stop = False
 abort = False
 continu = False
@@ -184,7 +184,6 @@ def group_brick(class_part):
         pass
     else:
         group = 'rest'
-    canvas_statusbar.itemconfig(text_statusbar, text = group) #!!!
     return group
 
 def container(group, containerList):
@@ -248,7 +247,7 @@ class SortingDone(Exception): pass
 """Start sorting"""
 
 def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
-    grouplist = []
+    grouplist = [None] * 3
     start = time.perf_counter()
     print(start)
     frame1,frame2,frame3 = take_photo(cam1,cam2,cam3)
@@ -263,6 +262,8 @@ def sorting_steps(cam1,cam2,cam3,model,containerList, arduino):
     class_part = classify_brick(grouplist)
     print(class_part)
     container_num = container(class_part, containerList)
+    canvas_statusbar.itemconfig(text_statusbar, text = class_part) 
+
     print("container number")
     print(container_num)
     if (container_num == 1 or container_num == 2):
@@ -574,7 +575,6 @@ def calibrate_window():
             globals()[f'opt_container_{i}'].config(state = 'normal')
         start_button['state'] = NORMAL
         calibrate__button['state'] = NORMAL
-        canvas_statusbar.itemconfig(text_statusbar, text = "machine is idle")
         calibrate_window.destroy()
 
     font_buttons = 'Helvetica 28 bold'
