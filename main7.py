@@ -123,6 +123,8 @@ def cam_release(cam1, cam2, cam3):
 
 def detect_brick(images, model):
     class_names = [None] * 3
+    global confidence_list
+    confidence_list = [0] * 3 #!!!
     for i in range(3):
         img = images[i]
         results = model(img)
@@ -137,6 +139,7 @@ def detect_brick(images, model):
             print("rest")
         else:
             confidence = data.iloc[0]['confidence']
+            confidence_list[i] = confidence #!!!
             print("cam sees: {} with confidence {}".format(data.iloc[0]['name'], data.iloc[0]['confidence']))
             if confidence < conf_tresh:
                 class_names[i] = 'rest'
@@ -162,6 +165,39 @@ def classify_brick(class_names):
         class_part = class_names[1]
     elif (class_names[0] == class_names[2]):
         class_part = class_names[0]
+
+    elif class_names[0] == "plate" and class_names[1] == "sheet" and class_names[2] == "rest":
+        if confidence_list[0] > confidence_list[1]:
+            class_part = class_names[0]
+        elif confidence_list[0] < confidence_list[1]:
+            class_part = class_names[1]
+    elif class_names[0] == "rest" and class_names[1] == "plate" and class_names[2] == "sheet":
+        if confidence_list[1] > confidence_list[2]:
+            class_part = class_names[1]
+        elif confidence_list[1] < confidence_list[2]:
+            class_part = class_names[2]    
+    elif class_names[0] == "sheet" and class_names[1] == "rest" and class_names[2] == "plate":
+        if confidence_list[2] > confidence_list[0]:
+            class_part = class_names[2]
+        elif confidence_list[2] < confidence_list[0]:
+            class_part = class_names[0]  
+
+    elif class_names[0] == "sheet" and class_names[1] == "plate" and class_names[2] == "rest":
+        if confidence_list[1] > confidence_list[0]:
+            class_part = class_names[1]
+        elif confidence_list[1] < confidence_list[0]:
+            class_part = class_names[0]
+    elif class_names[0] == "rest" and class_names[1] == "sheet" and class_names[2] == "plate":
+        if confidence_list[2] > confidence_list[1]:
+            class_part = class_names[2]
+        elif confidence_list[2] < confidence_list[1]:
+            class_part = class_names[1]    
+    elif class_names[0] == "plate" and class_names[1] == "rest" and class_names[2] == "sheet":
+        if confidence_list[0] > confidence_list[2]:
+            class_part = class_names[0]
+        elif confidence_list[0] < confidence_list[2]:
+            class_part = class_names[2]  
+
     else:
         class_part = 'rest'
     return class_part
