@@ -151,14 +151,14 @@ def classify_brick(class_names):
     # Determine what class the part is
     if (class_names[0] == class_names[1]) and (class_names[1] == class_names[2]):
         class_part = class_names[0]
-
-    elif class_names[0] == "rest" and class_names[1] == "rest" and class_names[2] != "rest":
-        class_part = class_names[2]
-    elif class_names[0] == "rest" and class_names[1] != "rest" and class_names[2] == "rest":
-        class_part = class_names[1]
-    elif class_names[0] != "rest" and class_names[1] == "rest" and class_names[2] == "rest":
-        class_part = class_names[0]
-
+        '''
+        elif class_names[0] == "rest" and class_names[1] == "rest" and class_names[2] != "rest":
+            class_part = class_names[2]
+        elif class_names[0] == "rest" and class_names[1] != "rest" and class_names[2] == "rest":
+            class_part = class_names[1]
+        elif class_names[0] != "rest" and class_names[1] == "rest" and class_names[2] == "rest":
+            class_part = class_names[0]
+        '''
     elif (class_names[0] == class_names[1]):
         class_part = class_names[0]
     elif (class_names[1] == class_names[2]):
